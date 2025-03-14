@@ -1,0 +1,113 @@
+﻿-- 1. Crear tabla cliente
+CREATE TABLE [dbo].[cliente] (     
+    [id_cliente] INT IDENTITY (1, 1) NOT NULL,     
+    [nombre] VARCHAR (100) NOT NULL,     
+    [apellido] VARCHAR (100) NOT NULL,     
+    [telefono] VARCHAR (15) NULL,     
+    [direccion] NCHAR (100) NULL,     
+    [correo] NCHAR (100) NULL,     
+    PRIMARY KEY CLUSTERED ([id_cliente] ASC) 
+);  
+GO  
+
+-- 2. Crear tabla empleado
+CREATE TABLE [dbo].[empleado] (     
+    [id_empleado] INT IDENTITY (1, 1) NOT NULL,     
+    [cedula] VARCHAR (13) NOT NULL,     
+    [nombre] VARCHAR (100) NOT NULL,     
+    [apellido] VARCHAR (100) NOT NULL,     
+    [telefono] VARCHAR (15) NOT NULL,     
+    [direccion] VARCHAR (MAX) NULL,     
+    [correo_electronico_empleado] VARCHAR (50) NULL,     
+    [status] VARCHAR (10) NULL,     
+    [acceso] VARCHAR (50) NULL,     
+    PRIMARY KEY CLUSTERED ([id_empleado] ASC),     
+    UNIQUE NONCLUSTERED ([cedula] ASC),     
+    CHECK ([status]='inactivo' OR [status]='activo') 
+);  
+GO  
+
+-- 3. Crear tabla producto
+CREATE TABLE [dbo].[producto] (     
+    [id_producto] INT IDENTITY (1, 1) NOT NULL,     
+    [nombre] VARCHAR (100) NOT NULL,     
+    PRIMARY KEY CLUSTERED ([id_producto] ASC) 
+);  
+GO  
+
+-- 4. Crear tabla proveedor
+CREATE TABLE [dbo].[proveedor] (     
+    [id_proveedor] INT IDENTITY (1, 1) NOT NULL,     
+    [nombre] VARCHAR (100) NOT NULL,     
+    [telefono] VARCHAR (15) NOT NULL,     
+    [direccion] VARCHAR (MAX) NOT NULL,     
+    [correo_electronico_proveedor] VARCHAR (100) NOT NULL,     
+    [nombre_representante] VARCHAR (100) NULL,     
+    PRIMARY KEY CLUSTERED ([id_proveedor] ASC) 
+);  
+GO  
+
+-- 5. Crear tabla proveedor_producto (requiere proveedor y producto)
+CREATE TABLE [dbo].[proveedor_producto] (     
+    [id_proveedor_producto] INT IDENTITY (1, 1) NOT NULL,     
+    [id_proveedor] INT NOT NULL,     
+    [id_producto] INT NOT NULL,     
+    [costo] DECIMAL (10, 2) NOT NULL,     
+    [precio_venta] DECIMAL (10, 2) NOT NULL,     
+    PRIMARY KEY CLUSTERED ([id_proveedor_producto] ASC),     
+    FOREIGN KEY ([id_proveedor]) REFERENCES [dbo].[proveedor] ([id_proveedor]),     
+    FOREIGN KEY ([id_producto]) REFERENCES [dbo].[producto] ([id_producto]) 
+);  
+GO  
+
+-- 6. Crear tabla inventario (requiere proveedor_producto)
+CREATE TABLE [dbo].[inventario] (     
+    [id_inventario] INT IDENTITY (1, 1) NOT NULL,     
+    [id_proveedor_producto] INT NOT NULL,     
+    [cantidad] INT DEFAULT ((0)) NOT NULL,     
+    [ubicacion] VARCHAR (MAX) NOT NULL,     
+    [stock_minimo] INT DEFAULT ((0)) NOT NULL,     
+    PRIMARY KEY CLUSTERED ([id_inventario] ASC),     
+    FOREIGN KEY ([id_proveedor_producto]) REFERENCES [dbo].[proveedor_producto] ([id_proveedor_producto]) 
+);  
+GO  
+
+-- 7. Crear tabla factura (requiere cliente y empleado)
+CREATE TABLE [dbo].[factura] (     
+    [id_factura] INT IDENTITY (1, 1) NOT NULL,     
+    [id_cliente] INT NOT NULL,     
+    [id_empleado] INT NOT NULL,     
+    [total] DECIMAL (10, 2) NOT NULL,     
+    [metodo_pago] VARCHAR (20) NOT NULL,     
+    [fecha] DATETIME DEFAULT (getdate()) NULL,     
+    PRIMARY KEY CLUSTERED ([id_factura] ASC),     
+    FOREIGN KEY ([id_cliente]) REFERENCES [dbo].[cliente] ([id_cliente]),     
+    FOREIGN KEY ([id_empleado]) REFERENCES [dbo].[empleado] ([id_empleado]),     
+    CHECK ([metodo_pago]='tarjeta' OR [metodo_pago]='transferencia' OR [metodo_pago]='efectivo') 
+);  
+GO  
+
+-- 8. Crear tabla factura_producto (requiere factura e inventario)
+CREATE TABLE [dbo].[factura_producto] (     
+    [id_factura_producto] INT IDENTITY (1, 1) NOT NULL,     
+    [id_factura] INT NOT NULL,     
+    [id_inventario] INT NOT NULL,     
+    [cantidad] INT NOT NULL,     
+    PRIMARY KEY CLUSTERED ([id_factura_producto] ASC),     
+    FOREIGN KEY ([id_factura]) REFERENCES [dbo].[factura] ([id_factura]),     
+    FOREIGN KEY ([id_inventario]) REFERENCES [dbo].[inventario] ([id_inventario]) 
+);  
+GO  
+
+-- 9. Crear tabla movimiento_inventario (requiere inventario)
+CREATE TABLE [dbo].[movimiento_inventario] (     
+    [id_movimiento_inventario] INT IDENTITY (1, 1) NOT NULL,     
+    [id_inventario] INT NOT NULL,     
+    [tipo] VARCHAR (20) NOT NULL,     
+    [cantidad] INT NOT NULL,     
+    [fecha] DATETIME DEFAULT (getdate()) NULL,     
+    PRIMARY KEY CLUSTERED ([id_movimiento_inventario] ASC),     
+    FOREIGN KEY ([id_inventario]) REFERENCES [dbo].[inventario] ([id_inventario]),     
+    CHECK ([tipo]='entrada' OR [tipo]='salida' OR [tipo]='ajuste') 
+);  
+GO  

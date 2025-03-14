@@ -1,0 +1,530 @@
+﻿CREATE PROCEDURE [dbo].[actualizar_cliente]
+    @id_cliente INT,              -- Identificador único del cliente a actualizar (obligatorio).
+    @nombre VARCHAR(100) = NULL,  -- Nuevo nombre del cliente (opcional).
+    @apellido VARCHAR(100) = NULL,  -- Nuevo apellido del cliente (opcional).
+    @telefono VARCHAR(15) = NULL,  -- Nuevo número de teléfono (opcional).
+    @direccion VARCHAR(255) = NULL,  -- Nueva dirección.
+    @correo VARCHAR(150) = NULL  -- Nuevo correo electrónico (opcional).
+AS
+BEGIN
+    SET NOCOUNT ON;  -- Evita que SQL Server envíe mensajes sobre filas afectadas, optimizando el rendimiento.
+
+    -- Actualiza los datos del cliente solo si se proporcionan valores nuevos.
+    -- ISNULL(@campo, valor_actual) mantiene el valor original si el parámetro es NULL.
+    UPDATE cliente 
+    SET nombre = ISNULL(@nombre, nombre),         -- Si @nombre es NULL, conserva el valor actual.
+        apellido = ISNULL(@apellido, apellido),   -- Si @apellido es NULL, conserva el valor actual.
+        telefono = ISNULL(@telefono, telefono),   -- Si @telefono es NULL, conserva el valor actual.
+        direccion = ISNULL(@direccion, direccion), -- Si @direccion es NULL, conserva el valor actual.
+        correo = ISNULL(@correo, correo)          -- Si @correo es NULL, conserva el valor actual.
+    WHERE id_cliente = @id_cliente;  -- Se actualiza solo el cliente con el ID especificado.
+END;
+
+GO
+
+CREATE PROCEDURE actualizar_empleado
+    @id_empleado INT,                           -- Parámetro de entrada para identificar al empleado que se va a actualizar
+    @nombre NVARCHAR(50),                       -- Parámetro de entrada para el nuevo nombre del empleado
+    @apellido NVARCHAR(50),
+	@cedula NVARCHAR(13),						-- Parámetro de entrada para el nuevo apellido del empleado
+    @telefono NVARCHAR (13),                    -- Parámetro de entrada para el nuevo teléfono del empleado
+    @direccion NVARCHAR(100),
+	@correo_electronico_empleado VARCHAR(150),                      -- Parámetro de entrada para la nueva dirección del empleado
+    @status NVARCHAR(20),                       -- Parámetro de entrada para el nuevo estado del empleado
+    @acceso NVARCHAR(20)     -- Parámetro de entrada para el nuevo tipo de acceso del empleado
+AS
+BEGIN
+    -- Actualiza el registro existente en la tabla Empleados que coincide con el id_empleado proporcionado
+    UPDATE empleado
+    SET nombre = @nombre,                       -- Establece el nuevo nombre
+        apellido = @apellido,
+		cedula = @cedula,						-- Establece el nuevo apellido
+        telefono = @telefono,                   -- Establece el nuevo teléfono
+        direccion = @direccion,
+		correo_electronico_empleado = @correo_electronico_empleado,                        -- Establece la nueva dirección
+        status = @status,                       -- Establece el nuevo estado
+        acceso = @acceso                       -- Establece el nuevo tipo de acceso
+    WHERE id_empleado = @id_empleado;          -- Condición para identificar el registro a actualizar
+END
+
+GO
+
+CREATE PROCEDURE [dbo].[actualizar_factura]
+	@id_factura int,
+	@id_cliente int,
+	@id_empleado int,
+	@total float,
+	@metodo_pago NVARCHAR(100)
+AS
+	UPDATE factura
+	SET id_cliente = ISNULL(@id_cliente,id_cliente),
+		id_empleado = ISNULL(@id_empleado,id_empleado),
+		total = ISNULL(@total,total),
+		metodo_pago = ISNULL(@metodo_pago,metodo_pago)
+		WHERE id_factura = @id_factura
+RETURN 0
+
+GO
+
+CREATE PROCEDURE [dbo].[actualizar_factura_producto]
+    @id_factura_producto INT,
+    @id_factura INT,
+    @id_inventario INT,
+    @cantidad INT
+AS
+BEGIN
+    UPDATE factura_producto
+    SET 
+        id_factura = @id_factura,
+        id_inventario = @id_inventario,
+        cantidad = @cantidad
+    WHERE id_factura_producto = @id_factura_producto
+END
+
+GO
+
+
+CREATE PROCEDURE [dbo].[actualizar_inventario]
+	@id_inventario int = null,
+	@id_proveedor_producto int,
+	@cantidad int,
+	@ubicacion varchar(max),
+	@stock_minimo int
+AS
+	UPDATE inventario 
+	SET id_proveedor_producto = @id_proveedor_producto, 
+		cantidad = @cantidad, 
+		ubicacion = @ubicacion, 
+		stock_minimo = @stock_minimo
+	WHERE id_inventario = @id_inventario
+RETURN 0
+
+GO
+
+
+CREATE PROCEDURE [dbo].[actualizar_producto]
+	@id_pruducto int = null,
+	@nombre_producto varchar(100) = null
+AS
+	UPDATE producto 
+	SET nombre = @nombre_producto 
+	WHERE id_producto = @id_pruducto
+RETURN 0
+
+GO
+
+
+CREATE PROCEDURE actualizar_proveedor
+    @id_proveedor INT,
+    @nombre NVARCHAR(100),
+    @telefono NVARCHAR(15),
+    @direccion NVARCHAR(255),
+    @correo_electronico_proveedor NVARCHAR(100),
+    @nombre_representante NVARCHAR(100)
+AS
+BEGIN
+    UPDATE proveedor
+    SET nombre = @nombre,
+        telefono = @telefono,
+        direccion = @direccion,
+        correo_electronico_proveedor = @correo_electronico_proveedor,
+        nombre_representante = @nombre_representante
+    WHERE id_proveedor = @id_proveedor;
+END
+
+GO
+
+CREATE PROCEDURE [dbo].[actualizar_proveedor_producto]
+	@id_proveedor_producto int,
+	@costo decimal(10,2),
+	@precio_venta decimal(10,2)
+AS
+	UPDATE proveedor_producto SET costo = @costo, precio_venta = @precio_venta
+RETURN 0
+
+GO
+
+
+-- Procedimiento para consultar clientes por ID, nombre o apellido
+CREATE PROCEDURE [dbo].[consultar_cliente]
+    @pvbusqueda VARCHAR(100)  -- Parámetro de búsqueda (puede ser ID, nombre o apellido)
+AS
+BEGIN
+    SET NOCOUNT ON;  -- Evita mensajes innecesarios de conteo
+
+    IF TRY_CONVERT(INT, @pvbusqueda) IS NOT NULL
+    BEGIN
+        -- Buscar cliente por ID si el parámetro es un número válido
+        SELECT * FROM cliente WHERE id_cliente = CONVERT(INT, @pvbusqueda);
+    END
+    ELSE
+    BEGIN
+        -- Buscar cliente por nombre o apellido (búsqueda parcial)
+        SELECT * FROM cliente 
+        WHERE nombre LIKE '%' + @pvbusqueda + '%' 
+           OR apellido LIKE '%' + @pvbusqueda + '%';
+    END
+END;
+
+GO
+
+
+CREATE PROCEDURE consultar_empleado
+    @pvbusqueda NVARCHAR(50)                   -- Parámetro de entrada para el criterio de búsqueda del empleado
+AS
+SET NOCOUNT ON;
+IF (ISNUMERIC(@pvbusqueda) >= 1)
+
+BEGIN
+    -- Consulta los registros de empleados que coinciden con el parámetro de búsqueda
+    SELECT *
+    FROM empleado
+    WHERE id_empleado = @pvbusqueda
+END
+
+ELSE
+
+BEGIN
+    -- Consulta los registros de empleados que coinciden con el parámetro de búsqueda
+    SELECT *
+    FROM empleado
+    WHERE nombre LIKE '%' + @pvbusqueda + '%' OR    -- Busca empleados cuyo nombre contenga el término de búsqueda
+          apellido LIKE '%' + @pvbusqueda + '%';   -- Busca empleados cuyo apellido contenga el término de búsqueda
+END
+
+GO
+
+CREATE PROCEDURE [dbo].[consultar_factura]
+	@pvbusqueda Nvarchar(max)
+
+AS
+SET NOCOUNT ON;
+IF (ISNUMERIC(@pvbusqueda) >= 1)
+
+BEGIN
+    -- Consulta los registros de factura que coinciden con el parámetro de búsqueda
+    SELECT *
+    FROM factura
+    WHERE id_factura = @pvbusqueda
+END
+
+ELSE
+
+BEGIN
+    -- Consulta los registros de empleados que coinciden con el parámetro de búsqueda
+    SELECT *
+    FROM factura
+    WHERE metodo_pago LIKE '%' + @pvbusqueda + '%' OR    -- Busca empleados cuyo nombre contenga el término de búsqueda
+          fecha LIKE '%' + @pvbusqueda + '%' OR -- Busca empleados cuyo apellido contenga el término de búsqueda
+		  total LIKE '%' + @pvbusqueda + '%'
+END
+
+GO
+
+CREATE PROCEDURE [dbo].[consultar_factura_producto]
+    @pvbusqueda varchar(max) = NULL
+AS
+BEGIN
+    IF TRY_PARSE ( @pvbusqueda AS int ) iS NOT NULL
+    BEGIN
+		 -- Consulta por id factura
+        SELECT fp.id_factura AS factura_id, fp.cantidad AS cantidad,
+		pv.precio_venta AS precio_producto, p.nombre AS nombre_producto, (pv.precio_venta * fp.cantidad) AS total_parcial
+        FROM factura_producto AS fp
+		JOIN inventario AS i ON i.id_inventario = fp.id_inventario
+		JOIN proveedor_producto AS pv ON i.id_proveedor_producto = pv.id_proveedor_producto
+		JOIN producto AS p ON p.id_producto = pv.id_producto
+        WHERE id_factura = @pvbusqueda
+    END
+   
+END
+
+GO
+
+
+CREATE PROCEDURE [dbo].[consultar_inventario]
+	@pvbusqueda varchar(100)
+AS
+SET NOCOUNT ON;
+
+IF (ISNUMERIC(@pvbusqueda) >= 1)
+BEGIN
+	SELECT i.*, pr.nombre AS producto_nombre, pv.nombre AS proveedor_nombre
+	FROM inventario AS i
+	JOIN proveedor_producto AS p ON i.id_proveedor_producto = p.id_proveedor_producto
+	JOIN proveedor AS pv ON pv.id_proveedor = p.id_proveedor
+	JOIN producto AS pr ON p.id_producto = pr.id_producto
+	WHERE id_inventario = @pvbusqueda 
+	ORDER BY id_inventario
+END
+ELSE
+BEGIN
+	SELECT i.*, pr.nombre AS producto_nombre, pv.nombre AS proveedor_nombre
+	FROM inventario AS i
+	JOIN proveedor_producto AS p ON i.id_proveedor_producto = p.id_proveedor_producto
+	JOIN producto AS pr ON p.id_producto = pr.id_producto
+	JOIN proveedor AS pv ON pv.id_proveedor = p.id_proveedor
+	WHERE pv.nombre LIKE '%' + @pvbusqueda + '%' OR pr.nombre LIKE '%' + @pvbusqueda + '%'
+	ORDER BY i.id_inventario
+END
+
+GO
+
+
+CREATE PROCEDURE [dbo].[consultar_movimiento_inventario]
+	@pvbusqueda varchar(100)
+AS
+SET NOCOUNT ON;
+
+IF (ISNUMERIC(@pvbusqueda) >= 1)
+BEGIN
+	SELECT mvi.id_movimiento_inventario AS id_movimiento,
+		   mvi.id_inventario AS id_inventario,
+		   mvi.tipo AS tipo_movimiento,
+		   mvi.cantidad AS cantidad_movida,
+		   mvi.fecha AS fecha_de_operacion,
+		   i.ubicacion AS ubicacion_producto,
+		   pv.nombre AS nombre_proveedor,
+		   pr.nombre AS nombre_producto
+	FROM movimiento_inventario AS mvi
+	JOIN inventario AS i ON i.id_inventario = mvi.id_inventario
+	JOIN proveedor_producto AS p ON i.id_proveedor_producto = p.id_proveedor_producto
+	JOIN proveedor AS pv ON pv.id_proveedor = p.id_proveedor
+	JOIN producto AS pr ON p.id_producto = pr.id_producto
+	WHERE mvi.id_movimiento_inventario = @pvbusqueda 
+	ORDER BY mvi.fecha ASC
+END
+ELSE
+BEGIN
+	SELECT mvi.id_movimiento_inventario AS id_movimiento,
+		   mvi.id_inventario AS id_inventario,
+		   mvi.tipo AS tipo_movimiento,
+		   mvi.cantidad AS cantidad_movida,
+		   mvi.fecha AS fecha_de_operacion,
+		   i.ubicacion,
+		   pv.nombre AS proveedor_nombre,
+		   pr.nombre AS producto_nombre
+	FROM movimiento_inventario AS mvi
+	JOIN inventario AS i ON i.id_inventario = mvi.id_inventario
+	JOIN proveedor_producto AS p ON i.id_proveedor_producto = p.id_proveedor_producto
+	JOIN proveedor AS pv ON pv.id_proveedor = p.id_proveedor
+	JOIN producto AS pr ON p.id_producto = pr.id_producto
+	WHERE pv.nombre LIKE '%' + @pvbusqueda + '%' OR pr.nombre LIKE '%' + @pvbusqueda + '%'
+	ORDER BY mvi.fecha ASC
+END
+
+GO
+
+
+CREATE PROCEDURE [dbo].[consultar_producto]
+	@pvbusqueda varchar(100)
+AS
+SET NOCOUNT ON;
+
+IF TRY_CAST(@pvbusqueda AS INT) IS NOT NULL
+BEGIN
+	SELECT * FROM producto
+	WHERE id_producto = @pvbusqueda 
+	ORDER BY id_producto
+END
+ELSE
+BEGIN
+	SELECT * FROM producto
+	WHERE nombre LIKE '%' + @pvbusqueda + '%'
+	ORDER BY id_producto
+END
+
+GO
+
+
+CREATE PROCEDURE consultar_proveedor
+    @pvbusqueda NVARCHAR(100)
+AS
+
+IF TRY_CAST(@pvbusqueda AS INT) IS NOT NULL
+BEGIN
+
+	SELECT * FROM proveedor
+	WHERE id_proveedor = @pvbusqueda
+
+END
+ELSE
+BEGIN
+    SELECT * FROM proveedor
+    WHERE nombre LIKE '%' + @pvbusqueda + '%' OR
+          correo_electronico_proveedor LIKE '%' + @pvbusqueda + '%';
+END
+
+GO
+
+CREATE PROCEDURE [dbo].[consultar_proveedor_producto]
+	@pvbusqueda NVARCHAR(max)
+AS
+	
+SET NOCOUNT ON;
+
+IF (ISNUMERIC(@pvbusqueda) >= 1)
+BEGIN
+	SELECT pv.id_proveedor_producto AS id_productopv , pv.costo AS costo_producto, 
+	p.nombre AS nombre_proveedor , pv.precio_venta AS precio_venta_producto, pr.nombre AS nombre_producto
+	FROM proveedor_producto AS pv
+	JOIN proveedor AS p ON p.id_proveedor = pv.id_proveedor
+	JOIN producto AS pr ON pr.id_producto = pv.id_producto
+	WHERE pv.id_proveedor_producto = @pvbusqueda
+	ORDER BY pv.id_proveedor_producto
+END
+ELSE
+BEGIN
+
+	SELECT pv.id_proveedor_producto AS id_productopv , pv.costo AS costo_producto, 
+	p.nombre AS nombre_proveedor , pv.precio_venta AS precio_venta_producto , pr.nombre AS nombre_producto
+	FROM proveedor_producto AS pv
+	JOIN proveedor AS p ON p.id_proveedor = pv.id_proveedor
+	JOIN producto AS pr ON pr.id_producto = pv.id_producto
+	WHERE pv.costo like'%' + @pvbusqueda + '%' OR PV.precio_venta like '%' + @pvbusqueda + '%' 
+	OR P.correo_electronico_proveedor like '%' + @pvbusqueda + '%' OR p.direccion like '%' + @pvbusqueda + '%'
+	or p.nombre like '%' + @pvbusqueda + '%' or p.nombre_representante like '%' + @pvbusqueda + '%' or p.telefono like '%' + @pvbusqueda + '%'
+	or pr.nombre like '%' + @pvbusqueda + '%'
+	ORDER BY pv.id_proveedor_producto
+END
+
+GO
+
+
+-- Procedimiento para insertar un cliente
+CREATE PROCEDURE [dbo].[insertar_cliente]
+    @id_cliente INT = NULL OUTPUT,   -- Parámetro de salida para obtener el ID generado
+    @nombre VARCHAR(100) = 'Cliente de contado',  -- Nombre por defecto
+    @apellido VARCHAR(100) = 'Contado',           -- Apellido por defecto
+    @telefono VARCHAR(15) = NULL,                 -- Teléfono opcional
+    @direccion VARCHAR(255) = NULL,               -- Dirección opcional
+    @correo VARCHAR(150) = NULL                   -- Correo opcional
+AS
+BEGIN
+    SET NOCOUNT ON;  -- Evita mensajes innecesarios de conteo de filas afectadas
+
+    -- Inserta un nuevo cliente en la tabla clientes
+    INSERT INTO cliente (nombre, apellido, telefono, direccion, correo) 
+    VALUES (@nombre, @apellido, @telefono, @direccion, @correo);
+
+    -- Obtiene el último ID insertado y lo almacena en @id_cliente
+    SET @id_cliente = SCOPE_IDENTITY();
+END;
+
+GO
+
+
+CREATE PROCEDURE insertar_empleado
+    @nombre NVARCHAR(50),                       -- Parámetro de entrada para el nombre del empleado
+    @apellido NVARCHAR(50),						-- Parámetro de entrada para el apellido del empleado
+	@cedula NVARCHAR (13),						-- Parámetro de entrada para el cedula del empleado
+    @telefono NVARCHAR (15),                    -- Parámetro de entrada para el teléfono del empleado
+    @direccion NVARCHAR(100),                   -- Parámetro de entrada para la dirección del empleado
+    @correo_electronico_empleado NVARCHAR(100), -- Parámetro de entrada para el correo electrónico del empleado
+    @status NVARCHAR(20),                       -- Parámetro de entrada para el estado del empleado (activo/inactivo)
+    @acceso NVARCHAR(20)                        -- Parámetro de entrada para el tipo de acceso del empleado
+AS
+BEGIN
+    -- Inserta un nuevo registro en la tabla Empleados utilizando los parámetros proporcionados
+    INSERT INTO empleado (nombre, apellido,cedula, telefono, direccion, correo_electronico_empleado, status, acceso)
+    VALUES (@nombre, @apellido, @telefono, @cedula, @direccion, @correo_electronico_empleado, @status, @acceso);
+END
+
+GO
+
+
+CREATE PROCEDURE[DBO].[insertar_factura]
+    @id_cliente INT,
+	@id_empleado int,
+	@total float,
+	@metodo_pago NVARCHAR(100)
+
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	INSERT INTO factura (id_cliente,id_empleado,total,metodo_pago) VALUES (@id_cliente,@id_empleado,@total,@metodo_pago)
+
+END
+
+GO
+
+CREATE PROCEDURE [dbo].[insertar_factura_producto]
+    @id_factura INT,
+	@id_inventario int,
+    @cantidad INT
+AS
+BEGIN
+    INSERT INTO factura_producto (id_factura, id_inventario, cantidad)
+    VALUES (@id_factura, @id_inventario, @cantidad)
+
+    RETURN 0
+END
+
+GO
+
+CREATE PROCEDURE [dbo].[insertar_inventario]
+	@id_inventario int = null OUTPUT,
+	@id_proveedor_producto int,
+	@cantidad int,
+	@ubicacion varchar(max),
+	@stock_minimo int
+AS
+	INSERT INTO inventario (id_proveedor_producto,cantidad,ubicacion,stock_minimo) VALUES (@id_proveedor_producto,@cantidad,@ubicacion,@stock_minimo)
+	SET @id_inventario =@@IDENTITY
+RETURN 0
+
+GO
+
+
+CREATE PROCEDURE [dbo].[insertar_movimiento_inventario]
+	@id_movimiento_inventario int = null OUTPUT,
+	@id_inventario int,
+	@tipo varchar(20),
+	@cantidad int,
+	@fecha datetime = null OUTPUT
+AS
+	SET @fecha = GETDATE()
+	INSERT INTO movimiento_inventario (id_inventario, tipo, cantidad, fecha) 
+	VALUES (@id_inventario, @tipo, @cantidad, @fecha)
+	SET @id_movimiento_inventario = @@IDENTITY
+RETURN 0
+
+GO
+
+
+CREATE PROCEDURE [dbo].[insertar_producto]
+	@idproducto int = null OUTPUT,
+	@nombre varchar(100)
+AS
+	INSERT INTO producto (nombre) VALUES (@nombre)
+	SET @idproducto = @@IDENTITY
+RETURN 0
+
+GO
+
+
+CREATE PROCEDURE insertar_proveedor
+    @nombre NVARCHAR(100),
+    @telefono NVARCHAR(15),
+    @direccion NVARCHAR(255),
+    @correo_electronico_proveedor NVARCHAR(100),
+    @nombre_representante NVARCHAR(100)
+AS
+BEGIN
+    INSERT INTO proveedor (nombre, telefono, direccion, correo_electronico_proveedor, nombre_representante)
+    VALUES (@nombre, @telefono, @direccion, @correo_electronico_proveedor, @nombre_representante);
+END
+
+GO
+
+CREATE PROCEDURE [dbo].[insertar_proveedor_producto]
+	@id_proveedor int,
+	@id_producto int,
+	@costo decimal (10,2),
+	@precio_venta decimal (10,2)
+AS
+	INSERT INTO proveedor_producto (id_proveedor,id_producto,costo,precio_venta) VALUES (@id_proveedor,@id_producto,@costo,@precio_venta)
+RETURN 0
+
+Go
