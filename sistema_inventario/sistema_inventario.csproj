@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>sistema_inventario.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -60,11 +63,11 @@
     <Compile Include="Vistas\Inventario\InsertarProductoInventario.Designer.cs">
       <DependentUpon>InsertarProductoInventario.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Inventario\menuInventario.cs">
+    <Compile Include="Vistas\Inventario\menuesinventario.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vistas\Inventario\menuInventario.Designer.cs">
-      <DependentUpon>menuInventario.cs</DependentUpon>
+    <Compile Include="Vistas\Inventario\menuesinventario.Designer.cs">
+      <DependentUpon>menuesinventario.cs</DependentUpon>
     </Compile>
     <Compile Include="Vistas\splashscreen\screen.cs">
       <SubType>Form</SubType>
@@ -73,6 +76,48 @@
       <DependentUpon>screen.cs</DependentUpon>
     </Compile>
     <Compile Include="Vistas\VariablesFormularios.cs" />
+    <Compile Include="Vistas\vistaCliente\menuesCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\vistaCliente\menuesCliente.Designer.cs">
+      <DependentUpon>menuesCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\vistaEmpleado\menuesempleado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\vistaEmpleado\menuesempleado.Designer.cs">
+      <DependentUpon>menuesempleado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\vistaFactura\menuesFactura.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\vistaFactura\menuesFactura.Designer.cs">
+      <DependentUpon>menuesFactura.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\vistaProducto\menuesproducto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\vistaProducto\menuesproducto.Designer.cs">
+      <DependentUpon>menuesproducto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\vistaProveedor\menuesproveedor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\vistaProveedor\menuesproveedor.Designer.cs">
+      <DependentUpon>menuesproveedor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\vistaReporte\menuesreporte.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\vistaReporte\menuesreporte.Designer.cs">
+      <DependentUpon>menuesreporte.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\vistaResumendia\menuesresumendia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\vistaResumendia\menuesresumendia.Designer.cs">
+      <DependentUpon>menuesresumendia.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -88,6 +133,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\splashscreen\screen.resx">
       <DependentUpon>screen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\vistaCliente\menuesCliente.resx">
+      <DependentUpon>menuesCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\vistaEmpleado\menuesempleado.resx">
+      <DependentUpon>menuesempleado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\vistaFactura\menuesFactura.resx">
+      <DependentUpon>menuesFactura.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\vistaProveedor\menuesproveedor.resx">
+      <DependentUpon>menuesproveedor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\vistaReporte\menuesreporte.resx">
+      <DependentUpon>menuesreporte.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\vistaResumendia\menuesresumendia.resx">
+      <DependentUpon>menuesresumendia.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -19,7 +19,7 @@ namespace sistema_inventario
             {
                 splash.ShowDialog();
             }
-            Application.Run(new InsertarProductoInventario());
+            Application.Run(new Menu());
         }
     }
 }
