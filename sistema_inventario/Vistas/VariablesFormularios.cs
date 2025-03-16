@@ -11,9 +11,16 @@ namespace sistema_inventario.Vistas
     public class InventarioListaProductos
     {
         public static DataTable ListaProductos;
+        public static DataTable ListaProductosInventario;
         public static async Task CargarListaProductos()
         {
             ListaProductos = await CNproveedorProducto.CN_Consultar_proveedor_producto_async("");
         }
+
+        public static async Task CargarListaProductosInventario()
+        {
+            ListaProductosInventario = await CNinventario.CN_Consultar_inventarioAsync("");
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CapaDatos;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace CapaNegocio
 {
@@ -23,6 +24,12 @@ namespace CapaNegocio
         {
             Inventario inventario = new Inventario();
             return inventario.ConsultarInventario(parametrobusqueda);
+        }//Fin  metodo consultar
+
+        public static async Task <DataTable> CN_Consultar_inventarioAsync(string parametrobusqueda)
+        {
+            Inventario inventario = new Inventario();
+            return await inventario.ConsultarInventarioAsync("");
         }//Fin  metodo consultar
     }
 }

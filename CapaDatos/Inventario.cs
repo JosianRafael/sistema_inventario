@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace CapaDatos
 {
@@ -145,6 +146,44 @@ namespace CapaDatos
 
             return dt;
         } //Fin consultar producto
+
+        public async Task<DataTable> ConsultarInventarioAsync(string parametro)
+        {
+            //Data table que tomara los datos de los suplidores
+            DataTable dt = new DataTable();
+
+            //Creando el data reader
+            SqlDataReader leerDatos;
+
+
+            try
+            {
+                //usamos using con el objeto de conexion para gestionar la apertura y cierre de manera automatica
+                using (SqlConnection conexion = new SqlConnection(inventarioconexion.ObtenerConexion()))
+                {
+                    await conexion.OpenAsync();
+                    //Especificando comando
+                    SqlCommand command = new SqlCommand("consultar_inventario", conexion);
+                    //Indicando que es un procedimiento alamcenado
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    //añadiendo valor abuscar
+                    command.Parameters.AddWithValue("@pvbusqueda", parametro);
+                    leerDatos = await command.ExecuteReaderAsync(); //GUardamos los datos resultantes en leerdatos
+                    dt.Load(leerDatos); //Se cargan los datos devueltos en dt
+
+                }//Fin using conexion
+
+            } //Fin try
+            catch (Exception ex)
+            {
+                Console.WriteLine($"El error que ocurrio fue: {ex.Message}");
+                dt = null; //Si hay un error se anula el dt
+            }//Fin cath
+
+            return dt;
+        } //Fin consultar producto
+
 
     } //Fin class
 } //Fin namespace

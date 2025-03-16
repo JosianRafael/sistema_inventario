@@ -4,7 +4,7 @@ using System.Data;
 
 namespace CapaNegocio
 {
-    class CNmovimientoInventario
+    public class CNmovimientoInventario
     {
         public static string CN_Insertar_movimiento_inventario(int id_movimiento_inventario, int id_inventario, string tipo, int cantidad, DateTime fecha)
         {

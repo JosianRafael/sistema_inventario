@@ -40,8 +40,15 @@ namespace sistema_inventario.Vistas.splashscreen
             AjustarTextoCentrado();
             StartLoadingAnimation();
 
-            await Task.Delay(3000);
+            await Task.Delay(4000);
             progressBar1.Value = 30;
+
+            estado.Text = "Cargando Listado de productos inventario";
+            textooriginal = estado.Text;
+            AjustarTextoCentrado();
+
+            await InventarioListaProductos.CargarListaProductosInventario();
+            progressBar1.Value = 50;
 
             // Ejecutando progresos
             estado.Text = "Cargando listado de productos";
