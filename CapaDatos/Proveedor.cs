@@ -10,7 +10,7 @@ namespace CapaDatos
 
         public string nombre { get; set; }
 
-        public int telefono { get; set; }
+        public string telefono { get; set; }
 
         public string direccion { get; set; }
 
@@ -24,13 +24,14 @@ namespace CapaDatos
         {
         }
 
-        public Proveedor(int id_proveedor, string nombre, int telefono, string direccion, string correo_electronico_proveedor, string nombre_representante)
+        public Proveedor(int id_proveedor, string nombre, string telefono, string direccion, string correo_electronico_proveedor, string nombre_representante)
         {
             this.id_proveedor = id_proveedor;
             this.nombre = nombre;
             this.telefono = telefono;
             this.direccion = direccion;
             this.correo_electronico_proveedor = correo_electronico_proveedor;
+            this.nombre_representante = nombre_representante;
 
         }
 

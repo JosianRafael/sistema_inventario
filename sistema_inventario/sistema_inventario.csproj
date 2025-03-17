@@ -159,6 +159,9 @@
     <EmbeddedResource Include="Vistas\vistaFactura\menuesFactura.resx">
       <DependentUpon>menuesFactura.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\vistaProveedor\AgregarProveedor.resx">
+      <DependentUpon>AgregarProveedor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Vistas\vistaProveedor\menuesproveedor.resx">
       <DependentUpon>menuesproveedor.cs</DependentUpon>
     </EmbeddedResource>

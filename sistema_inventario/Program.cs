@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using sistema_inventario.Vistas.splashscreen;
 using sistema_inventario.Vistas.Inventario;
+using sistema_inventario.Vistas.vistaProveedor;
 
 namespace sistema_inventario
 {
@@ -19,7 +20,7 @@ namespace sistema_inventario
             {
                 splash.ShowDialog();
             }
-            Application.Run(new InsertarProductoInventario());
+            Application.Run(new AgregarProveedor());
         }
     }
 }
