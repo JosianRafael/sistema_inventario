@@ -1,6 +1,7 @@
 ﻿using CapaDatos;
 using System;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace CapaNegocio
 {
@@ -16,6 +17,12 @@ namespace CapaNegocio
         {
             Movimiento_inventario movimiento_Inventario = new Movimiento_inventario();
             return movimiento_Inventario.ConsultarMovimientoInventario(parametrobusqueda);
+        }//Fin  metodo consultar
+
+        public static async Task <DataTable> CN_Consultar_movimiento_inventarioAsync(string parametrobusqueda)
+        {
+            Movimiento_inventario movimiento_Inventario = new Movimiento_inventario();
+            return await movimiento_Inventario.ConsultarMovimientoInventarioAsync(parametrobusqueda);
         }//Fin  metodo consultar
 
     }//Fin clase

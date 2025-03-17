@@ -132,7 +132,6 @@ namespace sistema_inventario.Vistas.Inventario
             this.flowLayoutPanel1.Controls.Add(this.label6);
             this.flowLayoutPanel1.Controls.Add(this.textBox4);
             this.flowLayoutPanel1.Controls.Add(this.listBox1);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Right;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(576, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -142,13 +141,12 @@ namespace sistema_inventario.Vistas.Inventario
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Dock = System.Windows.Forms.DockStyle.Top;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.Indigo;
             this.label6.Location = new System.Drawing.Point(3, 0);
             this.label6.Name = "label6";
             this.label6.Padding = new System.Windows.Forms.Padding(10);
-            this.label6.Size = new System.Drawing.Size(221, 37);
+            this.label6.Size = new System.Drawing.Size(163, 37);
             this.label6.TabIndex = 13;
             this.label6.Text = "Lista de productos";
             // 

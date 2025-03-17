@@ -30,6 +30,10 @@ namespace sistema_inventario.Vistas.Inventario
 
         private void ListBox1_ValueMemberChanged(object sender, EventArgs e)
         {
+            if (listBox1.SelectedValue == null)
+            {
+                return;
+            }
             int id_inventario = (int)listBox1.SelectedValue;
             string stock_minimo;
             string cantidad;
@@ -93,7 +97,8 @@ namespace sistema_inventario.Vistas.Inventario
 
                 // Especificar qué columna se mostrará en el ComboBox
                 listBox1.DisplayMember = "producto_nombre";
-                listBox1.ValueMember = "id_inventario"; 
+                listBox1.ValueMember = "id_inventario";
+                listBox1.ClearSelected();
             }
         }
 
@@ -153,6 +158,8 @@ namespace sistema_inventario.Vistas.Inventario
             textBox3.Text = "";
             textBox4.Text = "";
             textBox5.Text = "";
+            comboBox1.SelectedIndex = -1;
+            listBox1.ClearSelected();
         }
 
         private void comprobarnumero(object sender, KeyPressEventArgs e)
