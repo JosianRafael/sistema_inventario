@@ -58,6 +58,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vistas\Inventario\ConsultaMovimientoInventario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\Inventario\ConsultaMovimientoInventario.Designer.cs">
+      <DependentUpon>ConsultaMovimientoInventario.cs</DependentUpon>
+    </Compile>
     <Compile Include="Vistas\Inventario\InsertarProductoInventario.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +107,12 @@
     <Compile Include="Vistas\vistaProducto\menuesproducto.Designer.cs">
       <DependentUpon>menuesproducto.cs</DependentUpon>
     </Compile>
+    <Compile Include="Vistas\vistaProveedor\AgregarProveedor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\vistaProveedor\AgregarProveedor.Designer.cs">
+      <DependentUpon>AgregarProveedor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Vistas\vistaProveedor\menuesproveedor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -129,6 +141,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Vistas\Inventario\ConsultaMovimientoInventario.resx">
+      <DependentUpon>ConsultaMovimientoInventario.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Inventario\InsertarProductoInventario.resx">
       <DependentUpon>InsertarProductoInventario.cs</DependentUpon>
     </EmbeddedResource>
