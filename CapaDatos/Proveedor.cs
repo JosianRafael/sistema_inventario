@@ -83,6 +83,7 @@ namespace CapaDatos
                     SqlCommand command = new SqlCommand("actualizar_proveedor", conexion);
                     //Indicando que es un procedimiento alamcenado
                     command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@id_proveedor", proveedor.id_proveedor);
                     command.Parameters.AddWithValue("@nombre", proveedor.nombre);
                     command.Parameters.AddWithValue("@telefono", proveedor.telefono);
                     command.Parameters.AddWithValue("@direccion", proveedor.direccion);

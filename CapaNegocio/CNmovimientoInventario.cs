@@ -25,5 +25,11 @@ namespace CapaNegocio
             return await movimiento_Inventario.ConsultarMovimientoInventarioAsync(parametrobusqueda);
         }//Fin  metodo consultar
 
+        public static async Task<DataTable> CN_Consultar_movimiento_inventarioAsync_Reporters(int pvbusqueda)
+        {
+            Movimiento_inventario movimiento_Inventario = new Movimiento_inventario();
+            return await movimiento_Inventario.ConsultarMovimientoInventarioAsyncReportes(pvbusqueda);
+        }
+
     }//Fin clase
 }//FIn namcespace

@@ -135,6 +135,34 @@ namespace CapaDatos
             return dt;
         }
 
+        public async Task<DataTable> ConsultarProveedorProductoAsyncPorNombreProducto(string parametro)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(inventarioconexion.ObtenerConexion()))
+                {
+                    await conexion.OpenAsync(); // Asegurarse de abrir la conexión de forma asincrónica
+
+                    using (SqlCommand command = new SqlCommand("Consultar_proveedor_producto_por_nombre", conexion))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@pvbusqueda", parametro);
+
+                        using (SqlDataReader leerDatos = await command.ExecuteReaderAsync()) // Ejecutar el lector de datos de manera asincrónica
+                        {
+                            dt.Load(leerDatos);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                dt = null;
+            }
+            return dt;
+        }
 
     }
 }

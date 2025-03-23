@@ -340,20 +340,27 @@ GO
 CREATE PROCEDURE consultar_proveedor
     @pvbusqueda NVARCHAR(100)
 AS
-
-IF TRY_CAST(@pvbusqueda AS INT) IS NOT NULL
 BEGIN
-
-	SELECT * FROM proveedor
-	WHERE id_proveedor = @pvbusqueda
-
+    IF @pvbusqueda = '' OR @pvbusqueda IS NULL
+    BEGIN
+        -- Si el parámetro está vacío o es NULL, traer todos los registros
+        SELECT * FROM proveedor;
+    END
+    ELSE IF TRY_CAST(@pvbusqueda AS INT) IS NOT NULL
+    BEGIN
+        -- Si es un número, buscar por id_proveedor
+        SELECT * FROM proveedor
+        WHERE id_proveedor = @pvbusqueda;
+    END
+    ELSE
+    BEGIN
+        -- Si es texto, buscar en nombre y correo
+        SELECT * FROM proveedor
+        WHERE nombre LIKE '%' + @pvbusqueda + '%' 
+           OR correo_electronico_proveedor LIKE '%' + @pvbusqueda + '%';
+    END
 END
-ELSE
-BEGIN
-    SELECT * FROM proveedor
-    WHERE nombre LIKE '%' + @pvbusqueda + '%' OR
-          correo_electronico_proveedor LIKE '%' + @pvbusqueda + '%';
-END
+
 
 GO
 
@@ -528,3 +535,39 @@ AS
 RETURN 0
 
 Go
+
+CREATE PROCEDURE [dbo].[Consultar_movimiento_inventario_reportes]
+    @pvbusqueda INT  -- Parámetro para determinar la consulta a ejecutar
+AS
+BEGIN
+    -- Consultando el total movido por fecha
+    IF @pvbusqueda = 0
+    BEGIN
+        SELECT SUM(m.cantidad) AS 'cantidad', CAST(m.fecha AS DATE) AS 'fecha'  -- Convertir fecha a tipo DATE
+        FROM movimiento_inventario AS m
+        GROUP BY CAST(m.fecha AS DATE)  -- Agrupar solo por la fecha (sin la hora)
+        ORDER BY CAST(m.fecha AS DATE) DESC  -- Ordenar solo por la fecha (sin la hora)
+    END
+
+    -- Consultando el total movido por tipo de movimiento
+    IF @pvbusqueda = 1
+    BEGIN
+        SELECT SUM(m.cantidad) AS 'cantidad', m.tipo AS 'tipo'
+        FROM movimiento_inventario AS m
+        GROUP BY m.tipo
+        ORDER BY m.tipo ASC
+    END
+
+    -- Consultando el total movido por tipo de movimiento y fecha
+    IF @pvbusqueda = 2
+    BEGIN
+        SELECT SUM(m.cantidad) AS 'cantidad', m.tipo AS 'tipo', CAST(m.fecha AS DATE) AS 'fecha'  -- Convertir fecha a tipo DATE
+        FROM movimiento_inventario AS m
+        GROUP BY m.tipo, CAST(m.fecha AS DATE)  -- Agrupar solo por la fecha (sin la hora)
+        ORDER BY m.tipo ASC, CAST(m.fecha AS DATE) DESC  -- Ordenar por tipo y fecha (sin la hora)
+    END
+END
+
+
+
+GO

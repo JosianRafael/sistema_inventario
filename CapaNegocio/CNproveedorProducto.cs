@@ -29,5 +29,10 @@ namespace CapaNegocio
             return await new ProveedorProducto().ConsultarProveedorProductoAsync(parametrobusqueda);
         }
 
+        public static async Task<DataTable> CN_Consultar_proveedor_producto_async_por_nombre_producto(string parametrobusqueda)
+        {
+            return await new ProveedorProducto().ConsultarProveedorProductoAsyncPorNombreProducto(parametrobusqueda);
+        }
+
     }//Fin clase
 }//Fin namespace
