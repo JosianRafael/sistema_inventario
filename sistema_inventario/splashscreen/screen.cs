@@ -7,9 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using sistema_inventario.Vistas;
 
-namespace sistema_inventario.Vistas.splashscreen
+namespace sistema_inventario.splashscreen
 {
     public partial class screen : Form
     {

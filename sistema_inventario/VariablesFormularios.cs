@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using CapaNegocio;
 
-namespace sistema_inventario.Vistas
+namespace sistema_inventario
 {
     public class InventarioListaProductos
     {

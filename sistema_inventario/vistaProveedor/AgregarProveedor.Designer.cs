@@ -1,5 +1,5 @@
 ﻿
-namespace sistema_inventario.Vistas.vistaProveedor
+namespace sistema_inventario.vistaProveedor
 {
     partial class AgregarProveedor
     {

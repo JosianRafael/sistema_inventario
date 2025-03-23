@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using sistema_inventario.Vistas.vistaCliente;
-using sistema_inventario.Vistas.vistaFactura;
-using sistema_inventario.Vistas.vistaProducto;
-using sistema_inventario.Vistas.vistaProveedor;
-using sistema_inventario.Vistas.vistaEmpleado;
-using sistema_inventario.Vistas.Inventario;
-using sistema_inventario.Vistas.vistaResumendia;
-using sistema_inventario.Vistas.vistaReporte;
+using sistema_inventario.vistaCliente;
+using sistema_inventario.vistaFactura;
+using sistema_inventario.vistaProducto;
+using sistema_inventario.vistaProveedor;
+using sistema_inventario.vistaEmpleado;
+using sistema_inventario.Inventario;
+using sistema_inventario.vistaResumendia;
+using sistema_inventario.vistaReporte;
 
-namespace sistema_inventario.Vistas.vistaResumendia
+namespace sistema_inventario.vistaResumendia
 {
     public partial class menuesresumendia : Form
     {
@@ -176,7 +176,9 @@ namespace sistema_inventario.Vistas.vistaResumendia
             contentPanel.Controls.Add(sectionTitle);
 
             // Espacio entre el título y los cuadros
+#pragma warning disable CS0219 // La variable 'spaceBetweenTitleAndBoxes' está asignada pero su valor nunca se usa
             int spaceBetweenTitleAndBoxes = 20; // Espacio deseado en píxeles
+#pragma warning restore CS0219 // La variable 'spaceBetweenTitleAndBoxes' está asignada pero su valor nunca se usa
 
             // Botones principales del dashboard con imágenes
             string[] dashboardItems = { "Resumen del dia" };

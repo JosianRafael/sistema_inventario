@@ -2,14 +2,14 @@
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using sistema_inventario.Vistas.vistaCliente;
-using sistema_inventario.Vistas.vistaFactura;
-using sistema_inventario.Vistas.vistaProducto;
-using sistema_inventario.Vistas.vistaProveedor;
-using sistema_inventario.Vistas.vistaEmpleado;
-using sistema_inventario.Vistas.Inventario;
-using sistema_inventario.Vistas.vistaResumendia;
-using sistema_inventario.Vistas.vistaReporte;
+using sistema_inventario.vistaCliente;
+using sistema_inventario.vistaFactura;
+using sistema_inventario.vistaProducto;
+using sistema_inventario.vistaProveedor;
+using sistema_inventario.vistaEmpleado;
+using sistema_inventario.Inventario;
+using sistema_inventario.vistaResumendia;
+using sistema_inventario.vistaReporte;
 using CapaNegocio;
 
 namespace sistema_inventario.FCliente

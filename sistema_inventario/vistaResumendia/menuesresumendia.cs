@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace sistema_inventario.Vistas.vistaResumendia
+namespace sistema_inventario.vistaResumendia
 {
     public partial class menuesresumendia : Form
     {

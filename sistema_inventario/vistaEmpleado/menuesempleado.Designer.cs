@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace sistema_inventario.Vistas.vistaEmpleado
+namespace sistema_inventario.vistaEmpleado
 {
     public partial class menuesempleado : Form
     {
@@ -110,7 +110,9 @@ namespace sistema_inventario.Vistas.vistaEmpleado
             contentPanel.Controls.Add(sectionTitle);
 
             // Espacio entre el título y los cuadros
+#pragma warning disable CS0219 // La variable 'spaceBetweenTitleAndBoxes' está asignada pero su valor nunca se usa
             int spaceBetweenTitleAndBoxes = 20; // Espacio deseado en píxeles
+#pragma warning restore CS0219 // La variable 'spaceBetweenTitleAndBoxes' está asignada pero su valor nunca se usa
 
             // Botones principales del dashboard con imágenes
             string[] dashboardItems = { "Crear Empleado", "Modificar Empleado", "Ver listas empleados", "Modulos", "Modulos" };

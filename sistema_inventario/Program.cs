@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
-using sistema_inventario.Vistas.splashscreen;
-using sistema_inventario.Vistas.Inventario;
-using sistema_inventario.Vistas.vistaProveedor;
+using sistema_inventario.splashscreen;
+using sistema_inventario.Inventario;
+using sistema_inventario.vistaProveedor;
+using sistema_inventario.FCliente;
 
 namespace sistema_inventario
 {
@@ -20,7 +21,7 @@ namespace sistema_inventario
             {
                 splash.ShowDialog();
             }
-            Application.Run(new AgregarProveedor());
+            Application.Run(new formulariocliente());
         }
     }
 }

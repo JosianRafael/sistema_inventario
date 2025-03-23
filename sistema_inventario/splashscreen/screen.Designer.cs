@@ -1,5 +1,5 @@
 ﻿
-namespace sistema_inventario.Vistas.splashscreen
+namespace sistema_inventario.splashscreen
 {
     partial class screen
     {

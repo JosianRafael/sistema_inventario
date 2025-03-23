@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace sistema_inventario.Vistas.vistaProveedor
+namespace sistema_inventario.vistaProveedor
 {
     public partial class menuesproveedor : Form
     {
@@ -110,7 +110,9 @@ namespace sistema_inventario.Vistas.vistaProveedor
             contentPanel.Controls.Add(sectionTitle);
 
             // Espacio entre el título y los cuadros
+#pragma warning disable CS0219 // La variable 'spaceBetweenTitleAndBoxes' está asignada pero su valor nunca se usa
             int spaceBetweenTitleAndBoxes = 20; // Espacio deseado en píxeles
+#pragma warning restore CS0219 // La variable 'spaceBetweenTitleAndBoxes' está asignada pero su valor nunca se usa
 
             // Botones principales del dashboard con imágenes
             string[] dashboardItems = { "Crear Proveedor", "Modificar proveedor", "Ver lista de proveedores", "Insertar ProV/Prod", "Actualizar ProV/Prod", "Consultar ProV/Prod" };

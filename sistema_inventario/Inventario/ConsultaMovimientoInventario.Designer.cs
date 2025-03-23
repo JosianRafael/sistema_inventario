@@ -1,5 +1,5 @@
 ﻿
-namespace sistema_inventario.Vistas.Inventario
+namespace sistema_inventario.Inventario
 {
     partial class ConsultaMovimientoInventario
     {

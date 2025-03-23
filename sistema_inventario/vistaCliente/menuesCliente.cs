@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace sistema_inventario.Vistas.vistaCliente
+namespace sistema_inventario.vistaCliente
 {
     public partial class menuesCliente : Form
     {

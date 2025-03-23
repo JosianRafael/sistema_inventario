@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CapaNegocio;
 
-namespace sistema_inventario.Vistas.vistaProveedor
+namespace sistema_inventario.vistaProveedor
 {
     public partial class AgregarProveedor : Form
     {

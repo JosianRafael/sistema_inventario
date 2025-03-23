@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace sistema_inventario.Vistas.vistaProveedor
+namespace sistema_inventario.vistaProveedor
 {
     public partial class menuesproveedor : Form
     {

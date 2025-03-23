@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace sistema_inventario.Vistas.vistaFactura
+namespace sistema_inventario.vistaFactura
 {
     public partial class menuesFactura : Form
     {

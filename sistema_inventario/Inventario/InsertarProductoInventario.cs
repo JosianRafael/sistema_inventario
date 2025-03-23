@@ -7,10 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using sistema_inventario.Vistas;
 using CapaNegocio;
 
-namespace sistema_inventario.Vistas.Inventario
+namespace sistema_inventario.Inventario
 {
     public partial class InsertarProductoInventario : Form
     {

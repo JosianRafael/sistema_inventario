@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace sistema_inventario.Vistas.Inventario
+namespace sistema_inventario.Inventario
 {
     public partial class menuesinventario : Form
     {

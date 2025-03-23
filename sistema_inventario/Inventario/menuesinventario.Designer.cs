@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace sistema_inventario.Vistas.Inventario
+namespace sistema_inventario.Inventario
 {
     public partial class menuesinventario : Form
     {
