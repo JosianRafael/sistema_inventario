@@ -21,6 +21,21 @@ namespace sistema_inventario.vistaProveedor
             CargarDataView();
             dataGridView1.SelectionChanged += SeleccionarProveedor;
             button2.Click += LimpiarCampos;
+            CargarEstilos();
+        }
+
+        private void CargarEstilos()
+        {
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10, FontStyle.Bold);
+            dataGridView1.EnableHeadersVisualStyles = false;
+            button1.BackColor = Color.FromArgb(91, 63, 144);
+            button1.ForeColor = Color.White;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Font = new Font("Arial", 10, FontStyle.Bold);
+            button2.BackColor = Color.FromArgb(91, 63, 144);
+            button2.ForeColor = Color.White;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.Font = new Font("Arial", 10, FontStyle.Bold);
         }
 
         private void GuardarProveedor(object sender, EventArgs e)
@@ -99,6 +114,7 @@ namespace sistema_inventario.vistaProveedor
             textBox4.Text = "";
             textBox5.Text = "";
             id_proveedor = -1;
+            dataGridView1.ClearSelection();
         }
 
         private void LimpiarCampos(object sender, EventArgs e) 
@@ -109,6 +125,7 @@ namespace sistema_inventario.vistaProveedor
             textBox4.Text = "";
             textBox5.Text = "";
             id_proveedor = -1;
+            dataGridView1.ClearSelection();
         }
 
     }

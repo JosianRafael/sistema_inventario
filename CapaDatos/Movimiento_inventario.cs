@@ -139,7 +139,7 @@ namespace CapaDatos
             return dt;
         } //Fin consultar movimiento inventario
 
-        public async Task<DataTable> ConsultarMovimientoInventarioAsyncReportes(int parametro)
+        public async Task<DataTable> ConsultarMovimientoInventarioAsyncReportes(int parametro, DateTime? fechainicion = null, DateTime? fechafin = null, int? id_producto_proveedor = null)
         {
             //Data table que tomara los datos de los suplidores
             DataTable dt = new DataTable();
@@ -161,6 +161,9 @@ namespace CapaDatos
 
                     //añadiendo valor abuscar
                     command.Parameters.AddWithValue("@pvbusqueda", parametro);
+                    command.Parameters.AddWithValue("@fechainicion",fechainicion);
+                    command.Parameters.AddWithValue("@fechafin", fechafin);
+                    command.Parameters.AddWithValue("@id_inventario_producto", id_producto_proveedor);
                     leerDatos = await command.ExecuteReaderAsync(); //GUardamos los datos resultantes en leerdatos
                     dt.Load(leerDatos); //Se cargan los datos devueltos en dt
 

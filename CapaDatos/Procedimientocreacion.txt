@@ -271,6 +271,7 @@ END
 GO
 
 
+
 CREATE PROCEDURE [dbo].[consultar_movimiento_inventario]
 	@pvbusqueda varchar(100)
 AS
@@ -280,6 +281,7 @@ IF (ISNUMERIC(@pvbusqueda) >= 1)
 BEGIN
 	SELECT mvi.id_movimiento_inventario AS id_movimiento,
 		   mvi.id_inventario AS id_inventario,
+		   p.id_proveedor_producto AS id_producto,
 		   mvi.tipo AS tipo_movimiento,
 		   mvi.cantidad AS cantidad_movida,
 		   mvi.fecha AS fecha_de_operacion,
@@ -298,6 +300,7 @@ ELSE
 BEGIN
 	SELECT mvi.id_movimiento_inventario AS id_movimiento,
 		   mvi.id_inventario AS id_inventario,
+		   p.id_proveedor_producto AS id_producto,
 		   mvi.tipo AS tipo_movimiento,
 		   mvi.cantidad AS cantidad_movida,
 		   mvi.fecha AS fecha_de_operacion,
@@ -537,7 +540,10 @@ RETURN 0
 Go
 
 CREATE PROCEDURE [dbo].[Consultar_movimiento_inventario_reportes]
-    @pvbusqueda INT  -- Parámetro para determinar la consulta a ejecutar
+	@pvbusqueda INT,  -- Parámetro para determinar la consulta a ejecutar
+	@fechainicion date = null,
+	@fechafin date = null,
+	@id_inventario_producto int = null
 AS
 BEGIN
     -- Consultando el total movido por fecha
@@ -566,8 +572,148 @@ BEGIN
         GROUP BY m.tipo, CAST(m.fecha AS DATE)  -- Agrupar solo por la fecha (sin la hora)
         ORDER BY m.tipo ASC, CAST(m.fecha AS DATE) DESC  -- Ordenar por tipo y fecha (sin la hora)
     END
+
+	-- Consultando fechas minimas y maximas
+	IF @pvbusqueda = 3
+	BEGIN
+		SELECT CAST(MIN(fecha) AS DATE) AS "fechamin", CAST(MAX(fecha) AS DATE) AS "fechamax"
+		FROM movimiento_inventario
+	END
+	-- Consultando listado movimientos por fecha
+	IF @pvbusqueda = 4
+	BEGIN
+		SELECT mvi.id_movimiento_inventario AS id_movimiento,
+		   mvi.id_inventario AS id_inventario,
+		   mvi.tipo AS tipo_movimiento,
+		   mvi.cantidad AS cantidad_movida,
+		   mvi.fecha AS fecha_de_operacion,
+		   i.ubicacion AS ubicacion_producto,
+		   pv.nombre AS nombre_proveedor,
+		   pr.nombre AS nombre_producto,
+		   i.id_proveedor_producto AS id_producto
+		FROM movimiento_inventario AS mvi
+	JOIN inventario AS i ON i.id_inventario = mvi.id_inventario
+	JOIN proveedor_producto AS p ON i.id_proveedor_producto = p.id_proveedor_producto
+	JOIN proveedor AS pv ON pv.id_proveedor = p.id_proveedor
+	JOIN producto AS pr ON p.id_producto = pr.id_producto
+	WHERE CAST(mvi.fecha AS DATE) BETWEEN @fechainicion AND @fechafin
+	ORDER BY mvi.fecha ASC
+	END
+	-- Consultando cantidades movidas agrupados por fechas usando BETWEEN
+	IF @pvbusqueda = 5
+	BEGIN
+		SELECT SUM(m.cantidad) AS 'cantidad', CAST(m.fecha AS DATE) AS 'fecha'  -- Convertir fecha a tipo DATE
+        FROM movimiento_inventario AS m
+		WHERE CAST(m.fecha AS DATE) BETWEEN @fechainicion AND @fechafin
+        GROUP BY CAST(m.fecha AS DATE)  -- Agrupar solo por la fecha (sin la hora)
+        ORDER BY CAST(m.fecha AS DATE) DESC  -- Ordenar solo por la fecha (sin la hora)
+	END
+
+	 -- Consultando el total movido por tipo de movimiento y fecha
+    IF @pvbusqueda = 6
+    BEGIN
+        SELECT SUM(m.cantidad) AS 'cantidad', m.tipo AS 'tipo'
+        FROM movimiento_inventario AS m
+		WHERE CAST(m.fecha AS DATE) BETWEEN @fechainicion AND @fechafin
+        GROUP BY m.tipo
+        ORDER BY m.tipo ASC
+    END
+	-- Consultando los movimientos de un producto en especifico
+	IF @pvbusqueda = 7
+	BEGIN
+		SELECT mvi.id_movimiento_inventario AS id_movimiento,
+		   mvi.id_inventario AS id_inventario,
+		   mvi.tipo AS tipo_movimiento,
+		   mvi.cantidad AS cantidad_movida,
+		   mvi.fecha AS fecha_de_operacion,
+		   i.ubicacion AS ubicacion_producto,
+		   pv.nombre AS nombre_proveedor,
+		   pr.nombre AS nombre_producto,
+		   p.id_proveedor_producto AS id_producto
+		FROM movimiento_inventario AS mvi
+	JOIN inventario AS i ON i.id_inventario = mvi.id_inventario
+	JOIN proveedor_producto AS p ON i.id_proveedor_producto = p.id_proveedor_producto
+	JOIN proveedor AS pv ON pv.id_proveedor = p.id_proveedor
+	JOIN producto AS pr ON p.id_producto = pr.id_producto
+	WHERE p.id_proveedor_producto = @id_inventario_producto
+	ORDER BY mvi.fecha ASC
+	END
+
+		-- Consultando los movimientos de un producto en especifico por fechas
+	IF @pvbusqueda = 8
+	BEGIN
+		SELECT mvi.id_movimiento_inventario AS id_movimiento,
+		   mvi.id_inventario AS id_inventario,
+		   mvi.tipo AS tipo_movimiento,
+		   mvi.cantidad AS cantidad_movida,
+		   mvi.fecha AS fecha_de_operacion,
+		   i.ubicacion AS ubicacion_producto,
+		   pv.nombre AS nombre_proveedor,
+		   pr.nombre AS nombre_producto,
+		   p.id_proveedor_producto AS id_producto
+		FROM movimiento_inventario AS mvi
+	JOIN inventario AS i ON i.id_inventario = mvi.id_inventario
+	JOIN proveedor_producto AS p ON i.id_proveedor_producto = p.id_proveedor_producto
+	JOIN proveedor AS pv ON pv.id_proveedor = p.id_proveedor
+	JOIN producto AS pr ON p.id_producto = pr.id_producto
+	WHERE p.id_proveedor_producto = @id_inventario_producto AND (CAST(mvi.fecha AS DATE ) BETWEEN @fechainicion AND @fechafin)
+	ORDER BY mvi.fecha ASC
+	END
+
+	-- Consultar Movimientos del producto por fecha
+	IF @pvbusqueda = 9
+	BEGIN
+		SELECT SUM(mvi.cantidad) AS 'cantidad', CAST(mvi.fecha AS DATE) AS 'fecha'  -- Convertir fecha a tipo DATE
+        FROM movimiento_inventario AS mvi
+		JOIN inventario AS i ON i.id_inventario = mvi.id_inventario
+		JOIN proveedor_producto AS p ON p.id_proveedor_producto = @id_inventario_producto
+		WHERE CAST(mvi.fecha AS DATE) BETWEEN @fechainicion AND @fechafin AND i.id_proveedor_producto = @id_inventario_producto
+        GROUP BY CAST(mvi.fecha AS DATE)  -- Agrupar solo por la fecha (sin la hora)
+        ORDER BY CAST(mvi.fecha AS DATE) DESC  -- Ordenar solo por la fecha (sin la hora)
+	END
+
+	-- Consultando el total movido por tipo de fecha
+	    IF @pvbusqueda = 10
+    BEGIN
+        SELECT SUM(m.cantidad) AS 'cantidad', m.tipo AS 'tipo'
+        FROM movimiento_inventario AS m
+		JOIN inventario AS i ON i.id_inventario = m.id_inventario
+		JOIN proveedor_producto AS p ON p.id_proveedor_producto = @id_inventario_producto
+		WHERE i.id_proveedor_producto = @id_inventario_producto
+        GROUP BY m.tipo
+        ORDER BY m.tipo ASC
+    END
+
+	-- Consultando cada tipo de movimiento inventario por fecha y producto
+		IF @pvbusqueda = 11
+	BEGIN
+		SELECT 
+		CAST(m.fecha AS DATE) AS fecha,  -- Agrupar por día
+		m.tipo,                           -- Tipo de movimiento (Entrada, Ajuste, Salida)
+		SUM(m.cantidad) AS cantidad
+		FROM movimiento_inventario AS m
+		JOIN inventario AS i ON i.id_inventario = m.id_inventario
+		JOIN proveedor_producto AS p ON p.id_proveedor_producto = @id_inventario_producto
+		WHERE CAST(m.fecha AS DATE) BETWEEN @fechainicion AND @fechaFin AND i.id_proveedor_producto = @id_inventario_producto
+		GROUP BY CAST(m.fecha AS DATE), m.tipo
+		ORDER BY fecha ASC, m.tipo;
+	END
+
+	-- Consultando cada tipo de movimiento inventario por fecha
+		IF @pvbusqueda = 12
+	BEGIN
+		SELECT 
+		CAST(m.fecha AS DATE) AS fecha,  -- Agrupar por día
+		m.tipo,                           -- Tipo de movimiento (Entrada, Ajuste, Salida)
+		SUM(m.cantidad) AS cantidad
+		FROM movimiento_inventario AS m
+		JOIN inventario AS i ON i.id_inventario = m.id_inventario
+		JOIN proveedor_producto AS p ON p.id_proveedor_producto = i.id_proveedor_producto
+		WHERE CAST(m.fecha AS DATE) BETWEEN @fechainicion AND @fechaFin
+		GROUP BY CAST(m.fecha as DATE), m.tipo
+		ORDER BY fecha ASC, m.tipo;
+	END
+
 END
-
-
 
 GO
