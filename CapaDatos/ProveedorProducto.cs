@@ -27,21 +27,30 @@ namespace CapaDatos
         /// <summary>
         /// Inserta los productos que te provee un proveedor toma como parametro un objeto de la clase proveedor producto
         /// </summary>
-        public string InsertarProveedorProducto(ProveedorProducto proveedorProducto)
+        public string InsertarProveedorProducto(out int IDproveedorProducto,ProveedorProducto proveedorProducto)
         {
+            IDproveedorProducto = 0;
             string mensaje;
             try
             {
                 using (SqlConnection conexion = new SqlConnection(inventarioconexion.ObtenerConexion() ))
                 {
+                    conexion.Open();
                     SqlCommand command = new SqlCommand("insertar_proveedor_producto", conexion);
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@id_proveedor", proveedorProducto.IdProveedor);
                     command.Parameters.AddWithValue("@id_producto", proveedorProducto.IdProducto);
                     command.Parameters.AddWithValue("@costo", proveedorProducto.Costo);
                     command.Parameters.AddWithValue("@precio_venta", proveedorProducto.PrecioVenta);
+                    // Parámetro de salida para capturar el ID generado
+                    SqlParameter outputIdParam = new SqlParameter("@id_proveedor_producto", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputIdParam);
 
                     mensaje = command.ExecuteNonQuery() == 1 ? "Datos insertados correctamente" : "Error al insertar datos";
+                    IDproveedorProducto = (int)outputIdParam.Value;
                 }
             }
             catch (Exception ex)

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
 using sistema_inventario.splashscreen;
-using sistema_inventario.Inventario;
+using sistema_inventario.vistaInventario;
 using sistema_inventario.vistaProveedor;
 using sistema_inventario.FCliente;
+using sistema_inventario.Login;
+using sistema_inventario.FProducto;
 
 namespace sistema_inventario
 {
@@ -21,7 +23,7 @@ namespace sistema_inventario
             {
                 splash.ShowDialog();
             }
-            Application.Run(new formulariocliente());
+            Application.Run(new formularioproducto());
         }
     }
 }

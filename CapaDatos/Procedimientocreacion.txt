@@ -103,13 +103,21 @@ GO
 
 
 CREATE PROCEDURE [dbo].[actualizar_producto]
-	@id_pruducto int = null,
-	@nombre_producto varchar(100) = null
+    @id_producto int,
+    @nombre varchar(100),
+    @descripcion varchar(500) = NULL,
+    @codigo_barras varchar(50) = NULL
 AS
-	UPDATE producto 
-	SET nombre = @nombre_producto 
-	WHERE id_producto = @id_pruducto
-RETURN 0
+BEGIN
+    SET NOCOUNT ON;
+    
+    UPDATE producto SET
+        nombre = @nombre,
+        descripcion = @descripcion,
+        codigo_barras = @codigo_barras
+    WHERE id_producto = @id_producto;
+END
+
 
 GO
 
@@ -320,22 +328,37 @@ GO
 
 
 CREATE PROCEDURE [dbo].[consultar_producto]
-	@pvbusqueda varchar(100)
+    @pvbusqueda varchar(100) = NULL
 AS
-SET NOCOUNT ON;
+BEGIN
+    SET NOCOUNT ON;
 
-IF TRY_CAST(@pvbusqueda AS INT) IS NOT NULL
-BEGIN
-	SELECT * FROM producto
-	WHERE id_producto = @pvbusqueda 
-	ORDER BY id_producto
+    IF @pvbusqueda IS NULL OR @pvbusqueda = ''
+    BEGIN
+        SELECT id_producto, nombre, descripcion,
+               codigo_barras
+        FROM producto
+        ORDER BY id_producto
+    END
+    ELSE IF TRY_CAST(@pvbusqueda AS INT) IS NOT NULL
+    BEGIN
+        SELECT id_producto, nombre, descripcion,
+               codigo_barras
+
+        FROM producto
+        WHERE id_producto = @pvbusqueda 
+        ORDER BY id_producto
+    END
+    ELSE
+    BEGIN
+        SELECT id_producto, nombre, descripcion,
+               codigo_barras
+        FROM producto
+        WHERE nombre LIKE '%' + @pvbusqueda + '%'
+        ORDER BY id_producto
+    END
 END
-ELSE
-BEGIN
-	SELECT * FROM producto
-	WHERE nombre LIKE '%' + @pvbusqueda + '%'
-	ORDER BY id_producto
-END
+
 
 GO
 
@@ -478,9 +501,10 @@ CREATE PROCEDURE [dbo].[insertar_inventario]
 	@id_proveedor_producto int,
 	@cantidad int,
 	@ubicacion varchar(max),
-	@stock_minimo int
+	@stock_minimo int,
+	@fecha_vencimiento datetime
 AS
-	INSERT INTO inventario (id_proveedor_producto,cantidad,ubicacion,stock_minimo) VALUES (@id_proveedor_producto,@cantidad,@ubicacion,@stock_minimo)
+	INSERT INTO inventario (id_proveedor_producto,cantidad,ubicacion,stock_minimo,fecha_vencimiento) VALUES (@id_proveedor_producto,@cantidad,@ubicacion,@stock_minimo,@fecha_vencimiento)
 	SET @id_inventario =@@IDENTITY
 RETURN 0
 
@@ -503,13 +527,18 @@ RETURN 0
 GO
 
 
+
+
 CREATE PROCEDURE [dbo].[insertar_producto]
 	@idproducto int = null OUTPUT,
-	@nombre varchar(100)
+	@nombre varchar(100),
+	@descripcion varchar(max),
+	@codigo_barras varchar(20),
 AS
-	INSERT INTO producto (nombre) VALUES (@nombre)
+	INSERT INTO producto (nombre,descripcion,codigo_barras)
+	VALUES (@nombre,@descripcion,@codigo_barras)
 	SET @idproducto = @@IDENTITY
-RETURN 0
+RETURN @idproducto
 
 GO
 
@@ -532,10 +561,12 @@ CREATE PROCEDURE [dbo].[insertar_proveedor_producto]
 	@id_proveedor int,
 	@id_producto int,
 	@costo decimal (10,2),
-	@precio_venta decimal (10,2)
+	@precio_venta decimal (10,2),
+	@id_proveedor_producto INT OUTPUT
 AS
 	INSERT INTO proveedor_producto (id_proveedor,id_producto,costo,precio_venta) VALUES (@id_proveedor,@id_producto,@costo,@precio_venta)
-RETURN 0
+	SET @id_proveedor_producto = SCOPE_IDENTITY();
+RETURN @id_proveedor_producto
 
 Go
 

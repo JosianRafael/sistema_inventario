@@ -1,5 +1,5 @@
 ﻿
-namespace sistema_inventario.Inventario
+namespace sistema_inventario.vistaInventario
 {
     partial class InsertarProductoInventario
     {

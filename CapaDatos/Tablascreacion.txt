@@ -28,11 +28,16 @@ CREATE TABLE [dbo].[empleado] (
 GO  
 
 -- 3. Crear tabla producto
-CREATE TABLE [dbo].[producto] (     
-    [id_producto] INT IDENTITY (1, 1) NOT NULL,     
-    [nombre] VARCHAR (100) NOT NULL,     
-    PRIMARY KEY CLUSTERED ([id_producto] ASC) 
-);  
+CREATE TABLE [dbo].[producto] (
+    [id_producto]     INT             IDENTITY (1, 1) NOT NULL,
+    [nombre]          VARCHAR (100)   NOT NULL,
+    [descripcion]     NVARCHAR (MAX)  NULL,
+    [codigo_barras]   NVARCHAR (50)   NULL,
+    PRIMARY KEY CLUSTERED ([id_producto] ASC)
+);
+
+
+
 GO  
 
 -- 4. Crear tabla proveedor
@@ -61,15 +66,19 @@ CREATE TABLE [dbo].[proveedor_producto] (
 GO  
 
 -- 6. Crear tabla inventario (requiere proveedor_producto)
-CREATE TABLE [dbo].[inventario] (     
-    [id_inventario] INT IDENTITY (1, 1) NOT NULL,     
-    [id_proveedor_producto] INT NOT NULL,     
-    [cantidad] INT DEFAULT ((0)) NOT NULL,     
-    [ubicacion] VARCHAR (MAX) NOT NULL,     
-    [stock_minimo] INT DEFAULT ((0)) NOT NULL,     
-    PRIMARY KEY CLUSTERED ([id_inventario] ASC),     
-    FOREIGN KEY ([id_proveedor_producto]) REFERENCES [dbo].[proveedor_producto] ([id_proveedor_producto]) 
-);  
+
+CREATE TABLE [dbo].[inventario] (
+    [id_inventario]         INT           IDENTITY (1, 1) NOT NULL,
+    [id_proveedor_producto] INT           NOT NULL,
+    [cantidad]              INT           DEFAULT ((0)) NOT NULL,
+    [ubicacion]             VARCHAR (MAX) NOT NULL,
+    [stock_minimo]          INT           DEFAULT ((0)) NOT NULL,
+    [fecha_vencimiento] DATETIME NULL, 
+    PRIMARY KEY CLUSTERED ([id_inventario] ASC),
+    FOREIGN KEY ([id_proveedor_producto]) REFERENCES [dbo].[proveedor_producto] ([id_proveedor_producto])
+);
+
+
 GO  
 
 -- 7. Crear tabla factura (requiere cliente y empleado)

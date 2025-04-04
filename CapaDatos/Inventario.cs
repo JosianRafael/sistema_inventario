@@ -17,32 +17,35 @@ namespace CapaDatos
 
         public int stock_minimo { get; set; }
 
+        public DateTime fecha_vencimiento { get; set; }
+
         //Constructor vacío
         public Inventario()
         {
         }//fin constructor sin parametros
         //Constructor con parametros
-        public Inventario(int id_inventario, int id_proveedor_producto, int cantidad, string ubicacion, int stock_minimo)
+        public Inventario(int id_inventario, int id_proveedor_producto, int cantidad, string ubicacion, int stock_minimo, DateTime fecha_vencimiento)
         {
             this.id_inventario = id_inventario;
             this.id_proveedor_producto = id_proveedor_producto;
             this.cantidad = cantidad;
             this.ubicacion = ubicacion;
             this.stock_minimo = stock_minimo;
+            this.fecha_vencimiento = fecha_vencimiento;
 
         }//fin constructor con parametros
 
         /// <summary>
         /// Insertar inventario en la base de datos, toma como parametro un objeto de clase Iventario
         /// </summary>
-        public string InsertarInventario(Inventario inventario)
+        public string InsertarInventario(out int Idinventariogenerado,Inventario inventario)
         {
             string mensaje = "";
-
+            Idinventariogenerado = 0;
             try
             {
                 //usamos using con el objeto de conexion para gestionar la apertura y cierre de manera automatica
-                using (SqlConnection conexion = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Inventario\CapaDatos\BaseDeDatos.mdf;Integrated Security=True"))
+                using (SqlConnection conexion = new SqlConnection(inventarioconexion.ObtenerConexion()))
                 {
                     conexion.Open();
                     //Especificando comando
@@ -55,7 +58,16 @@ namespace CapaDatos
                     command.Parameters.AddWithValue("@cantidad", inventario.cantidad);
                     command.Parameters.AddWithValue("@ubicacion", inventario.ubicacion);
                     command.Parameters.AddWithValue("@stock_minimo", inventario.stock_minimo);
+                    command.Parameters.AddWithValue("@fecha_vencimiento", inventario.fecha_vencimiento);
+
+                    // Parámetro de salida para el ID generado
+                    SqlParameter outputIdParam = new SqlParameter("@id_inventario", SqlDbType.Int);
+                    outputIdParam.Direction = ParameterDirection.Output;
+                    command.Parameters.Add(outputIdParam);
+
                     mensaje = command.ExecuteNonQuery() == 1 ? "Inserción de datos completada correctamente!" : "Hubo un error al insertar";
+
+                    Idinventariogenerado = (int)command.Parameters["@id_inventario"].Value;
 
                 }//Fin using conexion
 

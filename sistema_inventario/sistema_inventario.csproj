@@ -50,10 +50,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factualizarcliente\formularioActualizarCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Factualizarcliente\formularioActualizarCliente.Designer.cs">
+      <DependentUpon>formularioActualizarCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FActualizarproducto\formularioActualizarProducto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FActualizarproducto\formularioActualizarProducto.Designer.cs">
+      <DependentUpon>formularioActualizarProducto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Fconsultarcliente\formularioConsultarCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fconsultarcliente\formularioConsultarCliente.Designer.cs">
+      <DependentUpon>formularioConsultarCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FProducto\formularioproducto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FProducto\formularioproducto.Designer.cs">
+      <DependentUpon>formularioproducto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login\login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\login.Designer.cs">
+      <DependentUpon>login.cs</DependentUpon>
+    </Compile>
     <Compile Include="Menu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Menu.Designer.cs">
+    <Compile Include="Menu.designer.cs">
       <DependentUpon>Menu.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -64,22 +94,22 @@
     <Compile Include="FCliente\formulariocliente.Designer.cs">
       <DependentUpon>formulariocliente.cs</DependentUpon>
     </Compile>
-    <Compile Include="Inventario\ConsultaMovimientoInventario.cs">
+    <Compile Include="vistaInventario\ConsultaMovimientoInventario.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Inventario\ConsultaMovimientoInventario.Designer.cs">
+    <Compile Include="vistaInventario\ConsultaMovimientoInventario.Designer.cs">
       <DependentUpon>ConsultaMovimientoInventario.cs</DependentUpon>
     </Compile>
-    <Compile Include="Inventario\InsertarProductoInventario.cs">
+    <Compile Include="vistaInventario\InsertarProductoInventario.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Inventario\InsertarProductoInventario.Designer.cs">
+    <Compile Include="vistaInventario\InsertarProductoInventario.Designer.cs">
       <DependentUpon>InsertarProductoInventario.cs</DependentUpon>
     </Compile>
-    <Compile Include="Inventario\menuesinventario.cs">
+    <Compile Include="vistaInventario\menuesinventario.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Inventario\menuesinventario.Designer.cs">
+    <Compile Include="vistaInventario\menuesinventario.Designer.cs">
       <DependentUpon>menuesinventario.cs</DependentUpon>
     </Compile>
     <Compile Include="splashscreen\screen.cs">
@@ -137,6 +167,27 @@
     <Compile Include="vistaResumendia\menuesresumendia.Designer.cs">
       <DependentUpon>menuesresumendia.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Factualizarcliente\formularioActualizarCliente.resx">
+      <DependentUpon>formularioActualizarCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FActualizarproducto\formularioActualizarProducto.resx">
+      <DependentUpon>formularioActualizarProducto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fconsultarcliente\formularioConsultarCliente.resx">
+      <DependentUpon>formularioConsultarCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FProducto\formularioproducto.resx">
+      <DependentUpon>formularioproducto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login\login.resx">
+      <DependentUpon>login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="vistaInventario\menuesinventario.resx">
+      <DependentUpon>menuesinventario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Menu.resx">
+      <DependentUpon>Menu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -150,10 +201,10 @@
     <EmbeddedResource Include="FCliente\formulariocliente.resx">
       <DependentUpon>formulariocliente.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Inventario\ConsultaMovimientoInventario.resx">
+    <EmbeddedResource Include="vistaInventario\ConsultaMovimientoInventario.resx">
       <DependentUpon>ConsultaMovimientoInventario.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Inventario\InsertarProductoInventario.resx">
+    <EmbeddedResource Include="vistaInventario\InsertarProductoInventario.resx">
       <DependentUpon>InsertarProductoInventario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="splashscreen\screen.resx">
@@ -201,21 +252,46 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="recursos\Atribuciones.txt" />
+    <Content Include="recursos\img\12201509.png" />
     <Content Include="recursos\img\botonx.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="recursos\img\buscarempleado.png" />
     <Content Include="recursos\img\cliente.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="recursos\img\Clientes.png" />
+    <Content Include="recursos\img\comingson.png" />
+    <Content Include="recursos\img\consultarfactura.png" />
+    <Content Include="recursos\img\consultarinventario.png" />
+    <Content Include="recursos\img\consultarproveedorproducto.png" />
+    <Content Include="recursos\img\crearcliente.png" />
+    <Content Include="recursos\img\crearempleado.png" />
+    <Content Include="recursos\img\crearproducto.png" />
     <Content Include="recursos\img\empleado.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="recursos\img\factura.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="recursos\img\group_921347.png" />
+    <Content Include="recursos\img\insertarinventario.png" />
+    <Content Include="recursos\img\insertarproveedor.png" />
+    <Content Include="recursos\img\insertarproveedorproducto.png" />
     <Content Include="recursos\img\inventario.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="recursos\img\listaempleado.png" />
+    <Content Include="recursos\img\login.jpg" />
+    <Content Include="recursos\img\login2.png" />
+    <Content Include="recursos\img\modificarcliente.png" />
+    <Content Include="recursos\img\modificarempleado.png" />
+    <Content Include="recursos\img\modificarfactura.png" />
+    <Content Include="recursos\img\modificarinventario.png" />
+    <Content Include="recursos\img\modificarproducto.png" />
+    <Content Include="recursos\img\modificarproveedor.png" />
+    <Content Include="recursos\img\modificarproveedorproducto.png" />
+    <Content Include="recursos\img\pagarfactura.png" />
     <Content Include="recursos\img\participantes.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -228,6 +304,13 @@
     <Content Include="recursos\img\reporte.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="recursos\img\reportes.png" />
+    <Content Include="recursos\img\reportgenerador.png" />
+    <Content Include="recursos\img\resumendia.png" />
+    <Content Include="recursos\img\verclientes.png" />
+    <Content Include="recursos\img\verlistaproovedor.png" />
+    <Content Include="recursos\img\verproducto.png" />
+    <Content Include="recursos\img\volveratras.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

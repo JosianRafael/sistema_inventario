@@ -1,30 +1,44 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using sistema_inventario.vistaCliente;
+using sistema_inventario.vistaFactura;
+using sistema_inventario.vistaProducto;
+using sistema_inventario.vistaProveedor;
+using sistema_inventario.vistaEmpleado;
+using sistema_inventario.vistaInventario;
+using sistema_inventario.vistaResumendia;
+using sistema_inventario.vistaReporte;
+using sistema_inventario.vistaReporte;
+using sistema_inventario.Fconsultarcliente;
+using sistema_inventario.FActualizarproducto;
+using sistema_inventario.FProducto;
 
 namespace sistema_inventario.vistaProducto
 {
     public partial class menuesproducto : Form
     {
+        private Form currentForm; // Para manejar el formulario actual
         private void InitializeComponent()
         {
             this.SuspendLayout();
 
-            // Configuración del formulario
+            // Configuración del formulario (MANTENIDO EXACTAMENTE IGUAL)
             this.ClientSize = new Size(1200, 700);
             this.Text = "📦💰 Sistema de Inventario y Facturación By: Josian Rafael, Felix Mendoza, Billy Smith";
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.BackColor = Color.White;
+            this.StartPosition = FormStartPosition.CenterScreen;
 
-            // Panel superior (Barra morada) - Fijo
+            // Panel superior (Barra morada) - Fijo (MANTENIDO EXACTO)
             Panel topBar = new Panel();
             topBar.Dock = DockStyle.Top;
             topBar.Height = 50;
             topBar.BackColor = Color.FromArgb(91, 63, 144);
             this.Controls.Add(topBar);
 
-            // Título
+            // Título (MANTENIDO EXACTO)
             Label titleLabel = new Label();
             titleLabel.Text = "📦💰 Sistema de Inventario y Facturación";
             titleLabel.ForeColor = Color.White;
@@ -33,16 +47,16 @@ namespace sistema_inventario.vistaProducto
             titleLabel.Location = new Point(20, 15);
             topBar.Controls.Add(titleLabel);
 
-            // Etiqueta para la fecha
+            // Etiqueta para la fecha (MANTENIDO EXACTO)
             Label dateLabel = new Label();
             dateLabel.ForeColor = Color.White;
             dateLabel.Font = new Font("Arial", 11, FontStyle.Bold);
             dateLabel.AutoSize = true;
-            dateLabel.Location = new Point(titleLabel.Right + 10, 15); // A la derecha del título         // la fecha actual esta para aca --->>>
-            dateLabel.Text = "                                                                                                                                               Fecha actual: " + DateTime.Now.ToString("dd/MM/yyyy"); // Formato de fecha
+            dateLabel.Location = new Point(titleLabel.Right + 10, 15);
+            dateLabel.Text = "                                                                                                                                               Fecha actual: " + DateTime.Now.ToString("dd/MM/yyyy");
             topBar.Controls.Add(dateLabel);
 
-            // Panel inferior (Footer) - Fijo
+            // Panel inferior (Footer) - Fijo (MANTENIDO EXACTO)
             Panel bottomBar = new Panel();
             bottomBar.Dock = DockStyle.Bottom;
             bottomBar.Height = 50;
@@ -57,8 +71,7 @@ namespace sistema_inventario.vistaProducto
             footerLabel.Location = new Point((bottomBar.Width - footerLabel.Width) / 2, 15);
             bottomBar.Controls.Add(footerLabel);
 
-
-            // Panel lateral (Sidebar) - Fijo
+            // Panel lateral (Sidebar) - Fijo (MANTENIDO EXACTO)
             Panel sidebar = new Panel();
             sidebar.Location = new Point(0, topBar.Height);
             sidebar.Width = 250;
@@ -87,12 +100,62 @@ namespace sistema_inventario.vistaProducto
                 btn.FlatStyle = FlatStyle.Flat;
                 btn.Font = new Font("Arial", 10, FontStyle.Bold);
                 btn.TextAlign = ContentAlignment.MiddleLeft;
-                btn.Click += (sender, e) => MessageBox.Show($"Seleccionaste {item}");
+
+                // MANEJADOR DE EVENTOS MODIFICADO (SOLO ESTA PARTE)
+                btn.Click += (sender, e) =>
+                {
+                    if (currentForm != null && !currentForm.IsDisposed)
+                    {
+                        currentForm.Close();
+                    }
+
+                    switch (item)
+                    {
+                        case "📊 Panel de control":
+                            currentForm = new Menu();
+                            break;
+                        case "📝 Crear Factura":
+                            currentForm = new menuesFactura();
+                            break;
+                        case "🤝 Proveedores":
+                            currentForm = new menuesproveedor();
+                            break;
+                        case "👥 Clientes":
+                            currentForm = new menuesCliente();
+                            break;
+                        case "📦 Producto":
+                           // currentForm = new menuesproducto();
+                            break;
+                        case "👤 Empleado":
+                            currentForm = new menuesempleado();
+                            break;
+                        case "🛍️ Inventario":
+                            currentForm = new menuesinventario();
+                            break;
+                        case "📊 Ventas":
+                            currentForm = new menuesresumendia();
+                            break;
+                        case "📈 Reportes":
+                            currentForm = new menuesreporte();
+                            break;
+                        case "👫 Participantes":
+                            // currentForm = new menuesParticipantes();
+                            break;
+                    }
+
+                    if (currentForm != null)
+                    {
+                        this.Hide(); // Oculta el formulario actual
+                        currentForm.StartPosition = FormStartPosition.CenterParent;
+                        currentForm.Show(this);
+                        currentForm.FormClosed += (s, args) => this.Close(); // Cierra al salir
+                    }
+                };
                 sidebar.Controls.Add(btn);
                 yOffset += 45;
             }
 
-            // Panel de contenido (Dashboard) - Con scroll
+            // Panel de contenido (Dashboard) - Con scroll (MANTENIDO EXACTO)
             Panel contentPanel = new Panel();
             contentPanel.Location = new Point(sidebar.Width + 10, topBar.Height + 10);
             contentPanel.Size = new Size(this.ClientSize.Width - sidebar.Width - 20, this.ClientSize.Height - topBar.Height - bottomBar.Height - 20);
@@ -100,7 +163,7 @@ namespace sistema_inventario.vistaProducto
             contentPanel.BackColor = Color.White;
             this.Controls.Add(contentPanel);
 
-            // Título para el apartado de cuadros
+            // Título para el apartado de cuadros (MANTENIDO EXACTO)
             Label sectionTitle = new Label();
             sectionTitle.Text = "🛒 Manejo de Productos";
             sectionTitle.Font = new Font("Arial", 14, FontStyle.Bold);
@@ -109,18 +172,15 @@ namespace sistema_inventario.vistaProducto
             sectionTitle.Location = new Point(20, 10);
             contentPanel.Controls.Add(sectionTitle);
 
-            // Espacio entre el título y los cuadros
-#pragma warning disable CS0219 // La variable 'spaceBetweenTitleAndBoxes' está asignada pero su valor nunca se usa
-            int spaceBetweenTitleAndBoxes = 20; // Espacio deseado en píxeles
-#pragma warning restore CS0219 // La variable 'spaceBetweenTitleAndBoxes' está asignada pero su valor nunca se usa
-
-            // Botones principales del dashboard con imágenes
-            string[] dashboardItems = { "Crear Producto", "Modificar Producto", "Ver lista de productos", "Modulos", "Modulos" };
-            string[] iconPaths = { "../../recursos/img/crearproducto.png", "../../recursos/img/modificarproducto.png", "../../recursos/img/verproducto.png", "../../recursos/img/comingson.png", "../../recursos/img/comingson.png" };
+            // Botones principales del dashboard con imágenes (MANTENIDO EXACTO)
+            string[] dashboardItems = { "Crear Producto", "Modificar Producto", "Ver lista de productos", "Modulos", "Volver Panel Principal" };
+            string[] iconPaths = { "../../recursos/img/crearproducto.png", "../../recursos/img/modificarproducto.png", "../../recursos/img/verproducto.png", "../../recursos/img/comingson.png", "../../recursos/img/volveratras.png" };
 
             int x = 20, y = 60;
             for (int i = 0; i < dashboardItems.Length; i++)
             {
+                int index = i;
+
                 Panel buttonPanel = new Panel();
                 buttonPanel.Size = new Size(200, 100);
                 buttonPanel.Location = new Point(x, y);
@@ -130,32 +190,73 @@ namespace sistema_inventario.vistaProducto
                 PictureBox icon = new PictureBox();
                 icon.Size = new Size(50, 50);
                 icon.Location = new Point(75, 10);
-                try
+
+                if (index < iconPaths.Length)
                 {
-                    icon.Image = Image.FromFile(iconPaths[i]);
-                    icon.SizeMode = PictureBoxSizeMode.Zoom;
+                    try
+                    {
+                        icon.Image = Image.FromFile(iconPaths[index]);
+                        icon.SizeMode = PictureBoxSizeMode.Zoom;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error al cargar la imagen: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                catch { }
+
                 buttonPanel.Controls.Add(icon);
 
-                Label btnLabel = new Label();
-                btnLabel.Text = dashboardItems[i];
-                btnLabel.Font = new Font("Arial", 10, FontStyle.Bold);
-                btnLabel.AutoSize = false;
-                btnLabel.TextAlign = ContentAlignment.MiddleCenter;
-                btnLabel.Dock = DockStyle.Bottom;
-                buttonPanel.Controls.Add(btnLabel);
+                Label label = new Label();
+                label.Text = dashboardItems[index];
+                label.Font = new Font("Arial", 10, FontStyle.Bold);
+                label.TextAlign = ContentAlignment.MiddleCenter;
+                label.Location = new Point(0, 60);
+                label.Size = new Size(200, 30);
+                buttonPanel.Controls.Add(label);
 
-                buttonPanel.Click += (sender, e) => MessageBox.Show($"Seleccionaste {dashboardItems[i]}");
+                // MANEJADOR DE EVENTOS MODIFICADO (SOLO ESTA PARTE)
+                buttonPanel.Click += (s, e) =>
+                {
+                    Form newForm = null;
+                    switch (dashboardItems[index])
+                    {
+                        case "Crear Producto":
+                            newForm = new formularioproducto();
+                            break;
+                        case "Modificar Producto":
+                             newForm = new formularioActualizarProducto();
+                           // MessageBox.Show("Abrir formulario de Modificar Producto");
+                            break;
+                        case "Ver lista de productos":
+                             newForm = new formularioActualizarProducto();
+                           // MessageBox.Show("Abrir lista de productos");
+                            break;
+                        case "Volver Panel Principal":
+                            this.Hide();
+                            new Menu().Show();
+                            new Menu().FormClosed += (sender, args) => this.Close();
+                            return;
+                        case "Modulos":
+                            // newForm = new ModulosForm();
+                            break;
+                    }
+
+                    if (newForm != null)
+                    {
+                        this.Hide();
+                        newForm.StartPosition = FormStartPosition.CenterScreen;
+                        newForm.Show();
+                        newForm.FormClosed += (sender, args) => this.Close();
+                    }
+                };
 
                 x += 220;
-                if ((i + 1) % 4 == 0)
+                if (x > contentPanel.Width - 200)
                 {
                     x = 20;
                     y += 120;
                 }
             }
-
 
             this.ResumeLayout(false);
         }

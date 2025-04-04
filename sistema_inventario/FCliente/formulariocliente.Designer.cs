@@ -7,7 +7,7 @@ using sistema_inventario.vistaFactura;
 using sistema_inventario.vistaProducto;
 using sistema_inventario.vistaProveedor;
 using sistema_inventario.vistaEmpleado;
-using sistema_inventario.Inventario;
+using sistema_inventario.vistaInventario;
 using sistema_inventario.vistaResumendia;
 using sistema_inventario.vistaReporte;
 using CapaNegocio;

@@ -6,7 +6,7 @@ using sistema_inventario.vistaFactura;
 using sistema_inventario.vistaProducto;
 using sistema_inventario.vistaProveedor;
 using sistema_inventario.vistaEmpleado;
-using sistema_inventario.Inventario;
+using sistema_inventario.vistaInventario;
 using sistema_inventario.vistaResumendia;
 using sistema_inventario.vistaReporte;
 
@@ -15,6 +15,7 @@ namespace sistema_inventario
     public partial class Menu : Form
     {
         public Form currentForm; // Para manejar el formulario actual
+
 
         private void InitializeComponent()
         {
@@ -26,10 +27,7 @@ namespace sistema_inventario
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.BackColor = Color.White;
-
             this.StartPosition = FormStartPosition.CenterScreen;
-
-
 
             // Panel superior (Barra morada) - Fijo
             Panel topBar = new Panel();
@@ -200,18 +198,25 @@ namespace sistema_inventario
             sectionTitle.Location = new Point(20, 10);
             contentPanel.Controls.Add(sectionTitle);
 
-            // Espacio entre el título y los cuadros
-#pragma warning disable CS0219 // La variable 'spaceBetweenTitleAndBoxes' está asignada pero su valor nunca se usa
-            int spaceBetweenTitleAndBoxes = 20; // Espacio deseado en píxeles
-#pragma warning restore CS0219 // La variable 'spaceBetweenTitleAndBoxes' está asignada pero su valor nunca se usa
-
             // Botones principales del dashboard con imágenes
             string[] dashboardItems = { "Factura", "Empleados", "Proveedor", "Producto", "Clientes", "Inventario", "Reportes", "Participantes" };
-            string[] iconPaths = { "recursos/img/factura.png", "recursos/img/empleado.png", "recursos/img/proveedor.png", "recursos/img/producto.png", "../../recursos/img/group_921347.png", "../../recursos/img/12201509.png", "../../recursos/img/reportes.png", "recursos/img/participantes.png" };
+            string[] iconPaths = {
+                "recursos/img/factura.png",
+                "recursos/img/empleado.png",
+                "recursos/img/proveedor.png",
+                "recursos/img/producto.png",
+                "../../recursos/img/Clientes.png",
+                "../../recursos/img/inventario.png",
+                "../../recursos/img/reportes.png",
+                "recursos/img/participantes.png"
+            };
 
             int x = 20, y = 60;
             for (int i = 0; i < dashboardItems.Length; i++)
             {
+                // Captura el valor de i en una variable local
+                int index = i;
+
                 Panel buttonPanel = new Panel();
                 buttonPanel.Size = new Size(200, 100);
                 buttonPanel.Location = new Point(x, y);
@@ -221,16 +226,27 @@ namespace sistema_inventario
                 PictureBox icon = new PictureBox();
                 icon.Size = new Size(50, 50);
                 icon.Location = new Point(75, 10);
-                try
+
+                // Verifica que el índice esté dentro del rango del arreglo iconPaths
+                if (index < iconPaths.Length)
                 {
-                    icon.Image = Image.FromFile(iconPaths[i]);
-                    icon.SizeMode = PictureBoxSizeMode.Zoom;
+                    try
+                    {
+                        // Intenta cargar la imagen desde la ruta especificada..
+                        icon.Image = Image.FromFile(iconPaths[index]);
+                        icon.SizeMode = PictureBoxSizeMode.Zoom;
+                    }
+                    catch (Exception ex)
+                    {
+                        // Si hay un error al cargar la imagen, muestra un mensaje de advertencia
+                        MessageBox.Show($"Error al cargar la imagen: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                catch { }
+
                 buttonPanel.Controls.Add(icon);
 
                 Label label = new Label();
-                label.Text = dashboardItems[i];
+                label.Text = dashboardItems[index];
                 label.Font = new Font("Arial", 10, FontStyle.Bold);
                 label.TextAlign = ContentAlignment.MiddleCenter;
                 label.Location = new Point(0, 60);
@@ -239,49 +255,43 @@ namespace sistema_inventario
 
                 buttonPanel.Click += (s, e) =>
                 {
-                    // Cerrar el formulario actual si existe
-                    if (currentForm != null && !currentForm.IsDisposed)
-                    {
-                        currentForm.Close();
-                    }
-
                     // Crear y mostrar un nuevo formulario basado en el botón presionado
-                    switch (dashboardItems[i])
+                    Form newForm = null;
+                    switch (dashboardItems[index])
                     {
                         case "Factura":
-                            currentForm = new menuesFactura();
+                            newForm = new menuesFactura();
                             break;
                         case "Empleados":
-                            currentForm = new menuesempleado();
+                            newForm = new menuesempleado();
                             break;
                         case "Proveedor":
-                            currentForm = new menuesproveedor();
+                            newForm = new menuesproveedor();
                             break;
                         case "Producto":
-                            currentForm = new menuesproducto();
+                            newForm = new menuesproducto();
                             break;
                         case "Clientes":
-                            currentForm = new menuesCliente();
+                            newForm = new menuesCliente();
                             break;
                         case "Inventario":
-                            currentForm = new menuesinventario();
+                            newForm = new menuesinventario();
                             break;
                         case "Reportes":
-                            currentForm = new menuesreporte();
+                            newForm = new menuesreporte();
                             break;
                         case "Participantes":
-                            // currentForm = new menuesParticipantes();
+                            // newForm = new menuesParticipantes();
                             break;
                         default:
                             return;
                     }
 
                     // Mostrar el formulario si se ha creado
-                    if (currentForm != null)
+                    if (newForm != null)
                     {
-                        // Centrar el formulario en la pantalla
-                        currentForm.StartPosition = FormStartPosition.CenterParent; // Cambia la posición de inicio
-                        currentForm.Show(this); // Pasa el formulario padre para centrarlo
+                        newForm.StartPosition = FormStartPosition.CenterScreen; // Centrar en la pantalla (Tenerlo pendiente / revision).
+                        newForm.Show(); // Abrir en una nueva ventana
                     }
                 };
 
@@ -296,7 +306,5 @@ namespace sistema_inventario
             this.ResumeLayout(false);
             this.PerformLayout();
         }
-
-      
     }
 }

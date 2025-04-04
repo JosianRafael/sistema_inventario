@@ -9,6 +9,9 @@ namespace CapaDatos
         //Propiedades
         public int id_producto { get; set; }
         public string nombre { get; set; }
+         public string descripcion { get; set; }
+        public string codigo_barras { get; set; }
+
 
         //Constructor vacio
         public Producto()
@@ -16,112 +19,114 @@ namespace CapaDatos
         }
 
         //Constructor con using (SqlConnection conexion = new SqlConnection(inventarioconexion.ObtenerConexion() ))
-        public Producto(int id_producto, string nombre)
+        public Producto(int id, string nombre, string descripcion,
+                      string codigoBar)
         {
-            this.id_producto = id_producto;
+            this.id_producto = id;
             this.nombre = nombre;
+            this.descripcion = descripcion;
+            this.codigo_barras = codigoBar;
         }
 
         /// <summary>
         /// Inserta un nuevo producto toma como parametro un objeto de clase producto
         /// </summary>
-        public string InsertarProducto(Producto producto)
+        public string InsertarProducto(out int idProducto, Producto producto)
         {
+            idProducto = 0;
             string mensaje;
             try
             {
-                using (SqlConnection conexion = new SqlConnection(inventarioconexion.ObtenerConexion()))
+                using (SqlConnection connection = new SqlConnection(inventarioconexion.ObtenerConexion()))
                 {
-                    conexion.Open();
-                    SqlCommand command = new SqlCommand("insertar_producto", conexion);
+                    SqlCommand command = new SqlCommand("insertar_producto", connection);
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@nombre", producto.nombre);
-                    mensaje = command.ExecuteNonQuery() == 1 ? "Datos completados correctamente" : "Hubo un problema";
-                }
 
+                    SqlParameter paramId = new SqlParameter("@idproducto", SqlDbType.Int);
+                    paramId.Direction = ParameterDirection.Output;
+                    command.Parameters.Add(paramId);
+
+                    command.Parameters.AddWithValue("@nombre", producto.nombre);
+                    command.Parameters.AddWithValue("@descripcion",
+                        string.IsNullOrEmpty(producto.descripcion) ? (object)DBNull.Value : producto.descripcion);
+                    command.Parameters.AddWithValue("@codigo_barras",
+                        string.IsNullOrEmpty(producto.codigo_barras) ? (object)DBNull.Value : producto.codigo_barras);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+
+                    idProducto = Convert.ToInt32(paramId.Value);
+
+                    mensaje = "Producto insertado correctamente";
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"El error es: {ex.Message}");
-                mensaje = ex.Message;
+                mensaje = "Error al insertar producto: " + ex.Message;
             }
             return mensaje;
-        }//FIn metodo insertar
+        }
+
 
         /// <summary>
         /// Actualiza producto toma como parametro un objeto de clase producto
         /// </summary>
         public string ActualizarProducto(Producto producto)
         {
-            string mensaje = "";
-
+            string mensaje;
             try
             {
-                //usamos using con el objeto de conexion para gestionar la apertura y cierre de manera automatica
-                using (SqlConnection conexion = new SqlConnection(inventarioconexion.ObtenerConexion()))
+                using (SqlConnection connection = new SqlConnection(inventarioconexion.ObtenerConexion()))
                 {
-                    conexion.Open();
-                    //Especificando comando
-                    SqlCommand command = new SqlCommand("actualizar_producto", conexion);
-                    //Indicando que es un procedimiento alamcenado
+                    SqlCommand command = new SqlCommand("actualizar_producto", connection);
                     command.CommandType = CommandType.StoredProcedure;
 
-                    //añadiendo using (SqlConnection conexion = new SqlConnection(inventarioconexion.ObtenerConexion() ))
                     command.Parameters.AddWithValue("@id_producto", producto.id_producto);
-                    command.Parameters.AddWithValue("@nombre_producto", producto.nombre);
-                    mensaje = command.ExecuteNonQuery() == 1 ? "Actualización de datos completada correctamente!" : "Hubo un error al actualizar";
+                    command.Parameters.AddWithValue("@nombre", producto.nombre);
+                    command.Parameters.AddWithValue("@descripcion",
+                        string.IsNullOrEmpty(producto.descripcion) ? (object)DBNull.Value : producto.descripcion);
+                    command.Parameters.AddWithValue("@codigo_barras",
+                        string.IsNullOrEmpty(producto.codigo_barras) ? (object)DBNull.Value : producto.codigo_barras);
 
-                }//Fin using conexion
-
-            } //Fin try
+                    connection.Open();
+                    int result = command.ExecuteNonQuery();
+                    mensaje = result == 1 ? "Producto actualizado correctamente!" : "Producto actualizado correctamente!";
+                }
+            }
             catch (Exception ex)
             {
-                Console.WriteLine($"El error es: {ex.Message}");
-                mensaje = ex.Message;
-            }//Fin cath
-
+                mensaje = "Error al actualizar producto: " + ex.Message;
+            }
             return mensaje;
-        }//FIn metodo actualizar
+        }
+
 
         /// <summary>
         /// Consulta un producto por id o nombre devuelve un objeto DataTable
         /// </summary>
         public DataTable ConsultarProducto(string parametro)
         {
-            //Data table que tomara los dato
             DataTable dt = new DataTable();
-
-            //Creando el data reader
-            SqlDataReader leerDatos;
-
-
             try
             {
-                //usamos using con el objeto de conexion para gestionar la apertura y cierre de manera automatica
-                using (SqlConnection conexion = new SqlConnection(inventarioconexion.ObtenerConexion()))
+                using (SqlConnection connection = new SqlConnection(inventarioconexion.ObtenerConexion()))
                 {
-                    conexion.Open();
-                    //Especificando comando
-                    SqlCommand command = new SqlCommand("consultar_producto", conexion);
-                    //Indicando que es un procedimiento alamcenado
+                    SqlCommand command = new SqlCommand("consultar_producto", connection);
                     command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@pvbusqueda", string.IsNullOrEmpty(parametro) ? (object)DBNull.Value : parametro);
 
-                    //añadiendo valor abuscar
-                    command.Parameters.AddWithValue("@pvbusqueda", parametro);
-                    leerDatos = command.ExecuteReader(); //GUardamos los datos resultantes en leerdatos
-                    dt.Load(leerDatos); //Se cargan los datos devueltos en dt
-
-                }//Fin using conexion
-
-            } //Fin try
+                    connection.Open();
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    adapter.Fill(dt);
+                }
+            }
             catch (Exception ex)
             {
-                Console.WriteLine($"El error que ocurrio fue: {ex.Message}");
-                dt = null; //Si hay un error se anula el dt
-            }//Fin cath
-
+                Console.WriteLine($"Error al consultar productos: {ex.Message}");
+                dt = null;
+            }
             return dt;
-        } //Fin consultar producto
+        }
+
 
     }//Fin clase
 }//Fin namespace

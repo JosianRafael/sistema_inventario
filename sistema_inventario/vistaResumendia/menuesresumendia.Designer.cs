@@ -6,7 +6,7 @@ using sistema_inventario.vistaFactura;
 using sistema_inventario.vistaProducto;
 using sistema_inventario.vistaProveedor;
 using sistema_inventario.vistaEmpleado;
-using sistema_inventario.Inventario;
+using sistema_inventario.vistaInventario;
 using sistema_inventario.vistaResumendia;
 using sistema_inventario.vistaReporte;
 
@@ -176,13 +176,11 @@ namespace sistema_inventario.vistaResumendia
             contentPanel.Controls.Add(sectionTitle);
 
             // Espacio entre el título y los cuadros
-#pragma warning disable CS0219 // La variable 'spaceBetweenTitleAndBoxes' está asignada pero su valor nunca se usa
             int spaceBetweenTitleAndBoxes = 20; // Espacio deseado en píxeles
-#pragma warning restore CS0219 // La variable 'spaceBetweenTitleAndBoxes' está asignada pero su valor nunca se usa
 
             // Botones principales del dashboard con imágenes
-            string[] dashboardItems = { "Resumen del dia" };
-            string[] iconPaths = { "../../recursos/img/resumendia.png", "../../recursos/img/modificarproveedor.png", "../../recursos/img/verlistaproovedor.png", "../../recursos/img/insertarproveedorproducto.png", "../../recursos/img/modificarproveedorproducto.png", "../../recursos/img/consultarproveedorproducto.png", "recursos/img/reporte.png", "recursos/img/participantes.png", "icons/check.png", "icons/expense.png", "icons/cashcut.png", "icons/transfer.png" };
+            string[] dashboardItems = { "Resumen del dia", "Volver Panel Principal" };
+            string[] iconPaths = { "../../recursos/img/resumendia.png", "../../recursos/img/volveratras.png", "../../recursos/img/verlistaproovedor.png", "../../recursos/img/insertarproveedorproducto.png", "../../recursos/img/modificarproveedorproducto.png", "../../recursos/img/consultarproveedorproducto.png", "recursos/img/reporte.png", "recursos/img/participantes.png", "icons/check.png", "icons/expense.png", "icons/cashcut.png", "icons/transfer.png" };
 
             int x = 20, y = 60;
             for (int i = 0; i < dashboardItems.Length; i++)

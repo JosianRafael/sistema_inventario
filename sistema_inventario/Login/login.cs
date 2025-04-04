@@ -8,13 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace sistema_inventario.Inventario
+namespace sistema_inventario.Login
 {
-    public partial class menuesinventario : Form
+    public partial class login : Form
     {
-        public menuesinventario()
+        
+
+        private void Form1_Load(object sender, EventArgs e)
         {
-            InitializeComponent();
+
         }
     }
 }

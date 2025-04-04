@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CapaNegocio;
 
-namespace sistema_inventario.Inventario
+namespace sistema_inventario.vistaInventario
 {
     public partial class InsertarProductoInventario : Form
     {
@@ -148,7 +148,7 @@ namespace sistema_inventario.Inventario
             cantidad = int.Parse(textBox1.Text);
             string ubicacion = textBox2.Text;
             int stock_minimo = int.Parse(textBox3.Text);
-            string texto = CNinventario.CN_Actualizar_inventario(id_inventario, id_producto, cantidad, ubicacion, stock_minimo);
+            string texto = CNinventario.CN_Actualizar_inventario(id_inventario, id_producto, cantidad, ubicacion, stock_minimo,DateTime.Now);
             CNmovimientoInventario.CN_Insertar_movimiento_inventario(0, id_inventario, comboBox1.Text, cantidad, DateTime.Now);
             MessageBox.Show(texto);
 

@@ -1,11 +1,20 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using sistema_inventario.vistaCliente;
+using sistema_inventario.vistaFactura;
+using sistema_inventario.vistaProducto;
+using sistema_inventario.vistaProveedor;
+using sistema_inventario.vistaEmpleado;
+using sistema_inventario.vistaInventario;
+using sistema_inventario.vistaResumendia;
+using sistema_inventario.vistaReporte;
 
 namespace sistema_inventario.vistaProveedor
 {
     public partial class menuesproveedor : Form
     {
+        private Form currentForm; // Para manejar el formulario actual
 
         private void InitializeComponent()
         {
@@ -87,7 +96,63 @@ namespace sistema_inventario.vistaProveedor
                 btn.FlatStyle = FlatStyle.Flat;
                 btn.Font = new Font("Arial", 10, FontStyle.Bold);
                 btn.TextAlign = ContentAlignment.MiddleLeft;
-                btn.Click += (sender, e) => MessageBox.Show($"Seleccionaste {item}");
+
+                // Manejar clics
+                btn.Click += (sender, e) =>
+                {
+                    // Cerrar el formulario actual si existe
+                    if (currentForm != null && !currentForm.IsDisposed)
+                    {
+                        currentForm.Close();
+                    }
+
+                    // Crear y mostrar un nuevo formulario basado en el botón presionado
+                    switch (item)
+                    {
+                        case "📊 Panel de control":
+                            // currentForm = new menuesPanelControl();
+                            break;
+                        case "📝 Crear Factura":
+                            currentForm = new menuesFactura();
+                            break;
+                        case "🤝 Proveedores":
+                            currentForm = new menuesproveedor();
+                            break;
+                        case "👥 Clientes":
+                            currentForm = new menuesCliente();
+                            break;
+                        case "📦 Producto":
+                            currentForm = new menuesproducto();
+                            break;
+                        case "👤 Empleado":
+                            currentForm = new menuesempleado();
+                            break;
+                        case "🛍️ Inventario":
+                            currentForm = new menuesinventario();
+                            break;
+                        case "📊 Ventas":
+                            currentForm = new menuesresumendia();
+                            break;
+                        case "📈 Reportes":
+                            currentForm = new menuesreporte();
+                            break;
+                        case "👫 Participantes":
+                            // currentForm = new menuesParticipantes();
+                            break;
+                        default:
+                            MessageBox.Show($"Seleccionaste {item}");
+                            return;
+                    }
+
+                    // Mostrar el formulario si se ha creado
+                    if (currentForm != null)
+                    {
+                        // Centrar el formulario en la pantalla
+                        currentForm.StartPosition = FormStartPosition.CenterParent; // Cambia la posición de inicio
+                        currentForm.Show(this); // Pasa el formulario padre para centrarlo
+                    }
+                };
+
                 sidebar.Controls.Add(btn);
                 yOffset += 45;
             }
@@ -110,13 +175,11 @@ namespace sistema_inventario.vistaProveedor
             contentPanel.Controls.Add(sectionTitle);
 
             // Espacio entre el título y los cuadros
-#pragma warning disable CS0219 // La variable 'spaceBetweenTitleAndBoxes' está asignada pero su valor nunca se usa
             int spaceBetweenTitleAndBoxes = 20; // Espacio deseado en píxeles
-#pragma warning restore CS0219 // La variable 'spaceBetweenTitleAndBoxes' está asignada pero su valor nunca se usa
 
             // Botones principales del dashboard con imágenes
-            string[] dashboardItems = { "Crear Proveedor", "Modificar proveedor", "Ver lista de proveedores", "Insertar ProV/Prod", "Actualizar ProV/Prod", "Consultar ProV/Prod" };
-            string[] iconPaths = { "../../recursos/img/insertarproveedor.png", "../../recursos/img/modificarproveedor.png", "../../recursos/img/verlistaproovedor.png", "../../recursos/img/insertarproveedorproducto.png", "../../recursos/img/modificarproveedorproducto.png", "../../recursos/img/consultarproveedorproducto.png" };
+            string[] dashboardItems = { "Crear Proveedor", "Modificar proveedor", "Ver lista de proveedores", "Insertar ProV/Prod", "Actualizar ProV/Prod", "Consultar ProV/Prod", "Volver Panel Principal" };
+            string[] iconPaths = { "../../recursos/img/insertarproveedor.png", "../../recursos/img/modificarproveedor.png", "../../recursos/img/verlistaproovedor.png", "../../recursos/img/insertarproveedorproducto.png", "../../recursos/img/modificarproveedorproducto.png", "../../recursos/img/consultarproveedorproducto.png", "../../recursos/img/volveratras.png" };
 
             int x = 20, y = 60; // Ajuste de posición inicial
             for (int i = 0; i < dashboardItems.Length; i++)

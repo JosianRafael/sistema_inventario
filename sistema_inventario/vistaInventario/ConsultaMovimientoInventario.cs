@@ -10,7 +10,7 @@ using CapaNegocio;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
-namespace sistema_inventario.Inventario
+namespace sistema_inventario.vistaInventario
 {
     public partial class ConsultaMovimientoInventario : Form
     {
