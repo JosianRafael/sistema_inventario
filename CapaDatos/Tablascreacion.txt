@@ -120,3 +120,24 @@ CREATE TABLE [dbo].[movimiento_inventario] (
     CHECK ([tipo]='entrada' OR [tipo]='salida' OR [tipo]='ajuste') 
 );  
 GO  
+
+-- 10. Crear tabla usuarios (No requiere nada)
+
+CREATE TABLE [dbo].[Usuarios] (
+    [IdUsuario]     INT           IDENTITY (1, 1) NOT NULL,
+    [CodigoAcceso]  CHAR (4)      NOT NULL,
+    [Nombre]        VARCHAR (100) NOT NULL,
+    [Apellido]      VARCHAR (100) NOT NULL,
+    [Email]         VARCHAR (100) NOT NULL,
+    [Contrasena]    CHAR (4)      NOT NULL,
+    [Rol]           VARCHAR (20)  NOT NULL,
+    [Activo]        BIT           DEFAULT ((1)) NULL,
+    [FechaCreacion] DATETIME      DEFAULT (getdate()) NULL,
+    PRIMARY KEY CLUSTERED ([IdUsuario] ASC),
+    UNIQUE NONCLUSTERED ([CodigoAcceso] ASC),
+    CHECK ([CodigoAcceso] like '[0-9][0-9][0-9][0-9]'),
+    CHECK ([Contrasena] like '[0-9][0-9][0-9][0-9]'),
+    CHECK ([Rol]='Empleado' OR [Rol]='Administrador')
+);
+
+GO

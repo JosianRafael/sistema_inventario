@@ -48,8 +48,8 @@ namespace CapaNegocio
             }
         }
 
-        public static string CN_Actualizar_Producto(int idProducto, string nombre, string descripcion = null,
-                                                   string codigoArticulo = null, string codigoBarras = null,
+        public static string CN_Actualizar_Producto(int idProducto, string nombre,int id_productoproveedor,int id_proveedor, string descripcion = null,
+                                                   string codigoBarras = null,
                                                    decimal precio = 0, decimal costo = 0)
         {
             try
@@ -60,8 +60,6 @@ namespace CapaNegocio
                 if (string.IsNullOrEmpty(nombre))
                     return "El nombre del producto es obligatorio";
 
-                if (string.IsNullOrEmpty(codigoArticulo))
-                    return "El código de artículo es obligatorio";
 
                 if (precio < 0)
                     return "El precio no puede ser negativo";
@@ -75,8 +73,11 @@ namespace CapaNegocio
                     descripcion: descripcion,
                     codigoBar: codigoBarras
                 );
+                string mensaje = producto.ActualizarProducto(producto);
 
-                return producto.ActualizarProducto(producto);
+                CNproveedorProducto.CN_Actualizar_proveedor_producto(id_productoproveedor, id_proveedor,idProducto,(float)costo,(float)precio);
+
+                return mensaje;
             }
             catch (Exception ex)
             {

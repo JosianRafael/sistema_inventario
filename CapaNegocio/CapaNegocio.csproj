@@ -50,6 +50,7 @@
     <Compile Include="CNproducto.cs" />
     <Compile Include="CNProveedor.cs" />
     <Compile Include="CNproveedorProducto.cs" />
+    <Compile Include="CNUsuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -20,19 +20,22 @@ namespace sistema_inventario.FActualizarproducto
         private DataGridView dataGridViewProductos;
         private TextBox txtNombre;
         private TextBox txtDescripcion;
-        private TextBox txtCodigoArticulo;
         private TextBox txtCodigoBarras;
         private NumericUpDown numStock;
         private TextBox txtUbicacion;
         private DateTimePicker dtpVencimiento;
         private NumericUpDown numPrecio;
         private NumericUpDown numCosto;
+        private ComboBox proveedorCombobox;
         private int idProductoSeleccionado;
+        private int idProductoProveedor;
+        private static DataTable datos;
 
         public formularioActualizarProducto()
         {
             InitializeComponent();
             ActualizarDataGridView();
+            CargarProveedores();
         }
 
         public void InitializeComponent()
@@ -218,16 +221,15 @@ namespace sistema_inventario.FActualizarproducto
             formPanel.Controls.Add(txtDescripcion);
 
             Label lblCodigoArticulo = new Label();
-            lblCodigoArticulo.Text = "Código Artículo:";
+            lblCodigoArticulo.Text = "Seleccione un proveedor:";
             lblCodigoArticulo.Location = new Point(xOffset, yOffsetForm + 110);
             lblCodigoArticulo.AutoSize = true;
             formPanel.Controls.Add(lblCodigoArticulo);
 
-            txtCodigoArticulo = new TextBox();
-            txtCodigoArticulo.Location = new Point(xOffset + 120, yOffsetForm + 110);
-            txtCodigoArticulo.Size = new Size(150, 30);
-            txtCodigoArticulo.Enabled = false;
-            formPanel.Controls.Add(txtCodigoArticulo);
+            proveedorCombobox = new ComboBox();
+            proveedorCombobox.Location = new Point(xOffset + 120, yOffsetForm + 110);
+            proveedorCombobox.Size = new Size(150, 30);
+            formPanel.Controls.Add(proveedorCombobox);
 
             // Columna 2
             int xOffsetCol2 = xOffset + 400;
@@ -243,40 +245,40 @@ namespace sistema_inventario.FActualizarproducto
             txtCodigoBarras.Size = new Size(250, 30);
             formPanel.Controls.Add(txtCodigoBarras);
 
-            Label lblStock = new Label();
-            lblStock.Text = "Stock:";
-            lblStock.Location = new Point(xOffsetCol2, yOffsetForm + 40);
-            lblStock.AutoSize = true;
-            formPanel.Controls.Add(lblStock);
+            //Label lblStock = new Label();
+            //lblStock.Text = "Stock:";
+            //lblStock.Location = new Point(xOffsetCol2, yOffsetForm + 40);
+            //lblStock.AutoSize = true;
+            //formPanel.Controls.Add(lblStock);
 
-            numStock = new NumericUpDown();
-            numStock.Location = new Point(xOffsetCol2 + 120, yOffsetForm + 40);
-            numStock.Size = new Size(100, 30);
-            numStock.Minimum = 0;
-            formPanel.Controls.Add(numStock);
+            //numStock = new NumericUpDown();
+            //numStock.Location = new Point(xOffsetCol2 + 120, yOffsetForm + 40);
+            //numStock.Size = new Size(100, 30);
+            //numStock.Minimum = 0;
+            //formPanel.Controls.Add(numStock);
 
-            Label lblUbicacion = new Label();
-            lblUbicacion.Text = "Ubicación (ej: A03):";
-            lblUbicacion.Location = new Point(xOffsetCol2, yOffsetForm + 80);
-            lblUbicacion.AutoSize = true;
-            formPanel.Controls.Add(lblUbicacion);
+            //Label lblUbicacion = new Label();
+            //lblUbicacion.Text = "Ubicación (ej: A03):";
+            //lblUbicacion.Location = new Point(xOffsetCol2, yOffsetForm + 80);
+            //lblUbicacion.AutoSize = true;
+            //formPanel.Controls.Add(lblUbicacion);
 
-            txtUbicacion = new TextBox();
-            txtUbicacion.Location = new Point(xOffsetCol2 + 120, yOffsetForm + 80);
-            txtUbicacion.Size = new Size(100, 30);
-            formPanel.Controls.Add(txtUbicacion);
+            //txtUbicacion = new TextBox();
+            //txtUbicacion.Location = new Point(xOffsetCol2 + 120, yOffsetForm + 80);
+            //txtUbicacion.Size = new Size(100, 30);
+            //formPanel.Controls.Add(txtUbicacion);
 
-            Label lblVencimiento = new Label();
-            lblVencimiento.Text = "Fecha Vencimiento:";
-            lblVencimiento.Location = new Point(xOffsetCol2, yOffsetForm + 120);
-            lblVencimiento.AutoSize = true;
-            formPanel.Controls.Add(lblVencimiento);
+            //Label lblVencimiento = new Label();
+            //lblVencimiento.Text = "Fecha Vencimiento:";
+            //lblVencimiento.Location = new Point(xOffsetCol2, yOffsetForm + 120);
+            //lblVencimiento.AutoSize = true;
+            //formPanel.Controls.Add(lblVencimiento);
 
-            dtpVencimiento = new DateTimePicker();
-            dtpVencimiento.Location = new Point(xOffsetCol2 + 120, yOffsetForm + 120);
-            dtpVencimiento.Size = new Size(150, 30);
-            dtpVencimiento.Format = DateTimePickerFormat.Short;
-            formPanel.Controls.Add(dtpVencimiento);
+            //dtpVencimiento = new DateTimePicker();
+            //dtpVencimiento.Location = new Point(xOffsetCol2 + 120, yOffsetForm + 120);
+            //dtpVencimiento.Size = new Size(150, 30);
+            //dtpVencimiento.Format = DateTimePickerFormat.Short;
+            //formPanel.Controls.Add(dtpVencimiento);
 
             // Campos de precio y costo
             Label lblPrecio = new Label();
@@ -326,7 +328,7 @@ namespace sistema_inventario.FActualizarproducto
                     return;
                 }
 
-                if (string.IsNullOrEmpty(txtNombre.Text) || string.IsNullOrEmpty(txtUbicacion.Text))
+                if (string.IsNullOrEmpty(txtNombre.Text))
                 {
                     MessageBox.Show("Complete los campos obligatorios (Nombre y Ubicación)");
                     return;
@@ -335,8 +337,9 @@ namespace sistema_inventario.FActualizarproducto
                 string resultado = CNproducto.CN_Actualizar_Producto(
                     idProductoSeleccionado,
                     txtNombre.Text,
+                    idProductoProveedor,
+                    Convert.ToInt32(proveedorCombobox.SelectedValue),
                     txtDescripcion.Text,
-                    txtCodigoArticulo.Text,
                     txtCodigoBarras.Text,
                     numPrecio.Value,
                     numCosto.Value
@@ -380,25 +383,40 @@ namespace sistema_inventario.FActualizarproducto
 
         private void CargarDatosProducto(DataGridViewRow fila)
         {
+            idProductoProveedor = Convert.ToInt32(fila.Cells["id_productopv"].Value);
             idProductoSeleccionado = Convert.ToInt32(fila.Cells["id_producto"].Value);
-            txtNombre.Text = fila.Cells["nombre"].Value.ToString();
-            txtDescripcion.Text = fila.Cells["descripcion"].Value?.ToString() ?? "";
-            txtCodigoArticulo.Text = fila.Cells["codigo_articulo"].Value.ToString();
+            txtNombre.Text = fila.Cells["descripcion"].Value.ToString();
+            txtDescripcion.Text = fila.Cells["nombre_producto"].Value?.ToString() ?? "";
             txtCodigoBarras.Text = fila.Cells["codigo_barras"].Value?.ToString() ?? "";
-            numStock.Value = Convert.ToInt32(fila.Cells["stock"].Value);
-            txtUbicacion.Text = fila.Cells["ubicacion"].Value.ToString();
+            //numStock.Value = Convert.ToInt32(fila.Cells["stock"].Value);
+            //txtUbicacion.Text = fila.Cells["ubicacion"].Value.ToString();
 
-            if (fila.Cells["fecha_vencimiento"].Value != DBNull.Value)
+            //if (fila.Cells["fecha_vencimiento"].Value != DBNull.Value)
+            //{
+            //    dtpVencimiento.Value = Convert.ToDateTime(fila.Cells["fecha_vencimiento"].Value);
+            //}
+            //else
+            //{
+            //    dtpVencimiento.Value = DateTime.Now.AddMonths(6);
+            //}
+
+            numPrecio.Value = Convert.ToDecimal(fila.Cells["precio_venta_producto"].Value);
+            numCosto.Value = Convert.ToDecimal(fila.Cells["costo_producto"].Value);
+
+            string nombreproveedor = fila.Cells["nombre_proveedor"].Value.ToString();
+            int i = 0;
+
+            foreach (var item in proveedorCombobox.Items)
             {
-                dtpVencimiento.Value = Convert.ToDateTime(fila.Cells["fecha_vencimiento"].Value);
-            }
-            else
-            {
-                dtpVencimiento.Value = DateTime.Now.AddMonths(6);
+                var rowView = item as DataRowView;
+                if (rowView != null && rowView["nombre"].ToString() == nombreproveedor)
+                {
+                    proveedorCombobox.SelectedIndex = i;
+                    break;
+                }
+                i++;
             }
 
-            numPrecio.Value = Convert.ToDecimal(fila.Cells["precio"].Value);
-            numCosto.Value = Convert.ToDecimal(fila.Cells["costo"].Value);
         }
 
         private void ActualizarDataGridView()
@@ -422,6 +440,30 @@ namespace sistema_inventario.FActualizarproducto
                 MessageBox.Show("Error al cargar productos: " + ex.Message);
                 dataGridViewProductos.Visible = false;
             }
+        }
+
+        private void CargarProveedores()
+        {
+            try
+            {
+                datos = CNProveedor.CN_Consultar_Proveedor("");
+            }
+            catch (Exception ex)
+            {
+                datos = null;
+            }
+
+            if (datos != null && datos.Rows.Count > 0)
+            {
+                proveedorCombobox.DataSource = datos;
+                proveedorCombobox.DisplayMember = "nombre";
+                proveedorCombobox.ValueMember = "id_proveedor";
+            }
+            else
+            {
+                MessageBox.Show("No hay proveedores registrados", "ok");
+            }
+
         }
     }
 }

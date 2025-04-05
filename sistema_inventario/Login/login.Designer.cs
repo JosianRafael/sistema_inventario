@@ -261,22 +261,22 @@ namespace sistema_inventario.Login
 
             try
             {
-                //DataTable dt = CNUsuario.CN_ValidarUsuario(txtCodigo.Text);
+                DataTable dt = CNUsuario.CN_ValidarUsuario(txtCodigo.Text);
 
-                //if (dt != null && dt.Rows.Count > 0)
-                //{
-                //    string nombreUsuario = dt.Rows[0]["NombreCompleto"].ToString();
-                //    string rolUsuario = dt.Rows[0]["Rol"].ToString();
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    string nombreUsuario = dt.Rows[0]["NombreCompleto"].ToString();
+                    string rolUsuario = dt.Rows[0]["Rol"].ToString();
 
-                //    // Abrir el menú principal
-                //    Menu menuPrincipal = new Menu();
-                //    menuPrincipal.Show();
-                //    this.Hide();
-                //}
-                //else
-                //{
-                //    MessageBox.Show("Código de acceso incorrecto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //}
+                    // Abrir el menú principal
+                    Menu menuPrincipal = new Menu();
+                    menuPrincipal.Show();
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("Código de acceso incorrecto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             catch (Exception ex)
             {

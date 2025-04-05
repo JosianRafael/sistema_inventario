@@ -144,10 +144,17 @@ GO
 
 CREATE PROCEDURE [dbo].[actualizar_proveedor_producto]
 	@id_proveedor_producto int,
+	@id_proveedor int,
+	@id_producto int,
 	@costo decimal(10,2),
 	@precio_venta decimal(10,2)
 AS
-	UPDATE proveedor_producto SET costo = @costo, precio_venta = @precio_venta
+	UPDATE proveedor_producto SET 
+	id_proveedor= @id_proveedor,
+	costo = @costo, 
+	precio_venta = @precio_venta,
+	id_producto = @id_producto
+	WHERE id_proveedor_producto = @id_proveedor_producto
 RETURN 0
 
 GO
@@ -399,7 +406,8 @@ SET NOCOUNT ON;
 IF (ISNUMERIC(@pvbusqueda) >= 1)
 BEGIN
 	SELECT pv.id_proveedor_producto AS id_productopv , pv.costo AS costo_producto, 
-	p.nombre AS nombre_proveedor , pv.precio_venta AS precio_venta_producto, pr.nombre AS nombre_producto
+	p.nombre AS nombre_proveedor , pv.precio_venta AS precio_venta_producto , pr.nombre AS descripcion,
+	pr.id_producto AS id_producto, pr.descripcion AS nombre_producto, pr.codigo_barras AS codigo_barras
 	FROM proveedor_producto AS pv
 	JOIN proveedor AS p ON p.id_proveedor = pv.id_proveedor
 	JOIN producto AS pr ON pr.id_producto = pv.id_producto
@@ -410,7 +418,8 @@ ELSE
 BEGIN
 
 	SELECT pv.id_proveedor_producto AS id_productopv , pv.costo AS costo_producto, 
-	p.nombre AS nombre_proveedor , pv.precio_venta AS precio_venta_producto , pr.nombre AS nombre_producto
+	p.nombre AS nombre_proveedor , pv.precio_venta AS precio_venta_producto , pr.nombre AS descripcion,
+	pr.id_producto AS id_producto, pr.descripcion AS nombre_producto, pr.codigo_barras AS codigo_barras
 	FROM proveedor_producto AS pv
 	JOIN proveedor AS p ON p.id_proveedor = pv.id_proveedor
 	JOIN producto AS pr ON pr.id_producto = pv.id_producto
@@ -745,6 +754,58 @@ BEGIN
 		ORDER BY fecha ASC, m.tipo;
 	END
 
+END
+
+GO
+
+-- Validar usuario por código
+CREATE PROCEDURE sp_ValidarUsuarioPorCodigo
+    @CodigoAcceso VARCHAR(20)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        IdUsuario,
+        CodigoAcceso,
+        Nombre + ' ' + Apellido AS NombreCompleto,
+        Email,
+        Rol
+    FROM 
+        Usuarios
+    WHERE 
+        CodigoAcceso = @CodigoAcceso
+        AND Activo = 1;
+END
+
+GO
+
+-- Consultar usuarios
+CREATE PROCEDURE sp_ConsultarUsuarios
+    @ParametroBusqueda VARCHAR(100) = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        IdUsuario,
+        CodigoAcceso,
+        Nombre,
+        Apellido,
+        Email,
+        Rol,
+        CASE WHEN Activo = 1 THEN 'Activo' ELSE 'Inactivo' END AS Estado,
+        CONVERT(VARCHAR, FechaCreacion, 103) AS FechaCreacion
+    FROM 
+        Usuarios
+    WHERE 
+        @ParametroBusqueda IS NULL 
+        OR CodigoAcceso LIKE '%' + @ParametroBusqueda + '%'
+        OR Nombre LIKE '%' + @ParametroBusqueda + '%'
+        OR Apellido LIKE '%' + @ParametroBusqueda + '%'
+        OR Email LIKE '%' + @ParametroBusqueda + '%'
+    ORDER BY 
+        Activo DESC, FechaCreacion DESC;
 END
 
 GO
