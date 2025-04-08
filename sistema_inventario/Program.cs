@@ -7,6 +7,7 @@ using sistema_inventario.FCliente;
 using sistema_inventario.Login;
 using sistema_inventario.FProducto;
 using sistema_inventario.FActualizarproducto;
+using sistema_inventario.vistaReporte;
 
 namespace sistema_inventario
 {
@@ -24,7 +25,7 @@ namespace sistema_inventario
             {
                 splash.ShowDialog();
             }
-            Application.Run(new formularioActualizarProducto());
+            Application.Run(new Reportegeneral());
         }
     }
 }

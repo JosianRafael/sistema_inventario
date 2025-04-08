@@ -809,3 +809,127 @@ BEGIN
 END
 
 GO
+
+
+-- Creacion vistas
+--Reporte de productos
+CREATE VIEW [dbo].[ReporteProductos]
+	AS
+	SELECT pr.descripcion AS Nombre_producto,  pr.nombre AS Descripcion, pv.costo AS Costo_producto, 
+	p.nombre AS Nombre_Proveedor , pv.precio_venta AS Precio_venta, pr.codigo_barras AS Codigo_barras,
+	i.cantidad AS Cantidad_en_inventario, i.fecha_vencimiento AS Fecha_de_vencimiento_de_lote,
+	i.stock_minimo AS Stock_minimo_indicado, i.ubicacion AS Ubicacion_del_producto
+	FROM proveedor_producto AS pv
+	JOIN proveedor AS p ON p.id_proveedor = pv.id_proveedor
+	JOIN producto AS pr ON pr.id_producto = pv.id_producto
+	JOIN inventario AS i ON i.id_proveedor_producto = pv.id_proveedor_producto
+
+GO
+
+CREATE VIEW [dbo].[ProductosMenorStockMinimo]
+AS
+	SELECT 
+    p.nombre AS nombre_producto,
+    pr.nombre AS nombre_proveedor,
+    i.cantidad,
+    i.stock_minimo
+FROM 
+    inventario i
+    JOIN proveedor_producto pp ON i.id_proveedor_producto = pp.id_proveedor_producto
+    JOIN producto p ON pp.id_producto = p.id_producto
+    JOIN proveedor pr ON pp.id_proveedor = pr.id_proveedor
+WHERE 
+    i.cantidad < i.stock_minimo
+
+GO
+
+CREATE VIEW [dbo].[ProductosVencer30dias]
+	AS
+SELECT 
+    p.nombre AS nombre_producto,
+    i.fecha_vencimiento,
+    DATEDIFF(DAY, GETDATE(), i.fecha_vencimiento) AS dias_para_vencer
+FROM 
+    inventario i
+    JOIN proveedor_producto pp ON i.id_proveedor_producto = pp.id_proveedor_producto
+    JOIN producto p ON pp.id_producto = p.id_producto
+WHERE 
+    i.fecha_vencimiento IS NOT NULL
+    AND i.fecha_vencimiento <= DATEADD(DAY, 30, GETDATE())
+
+GO
+
+CREATE VIEW [dbo].[MargenGanancia]
+	AS 
+	SELECT 
+    p.nombre AS nombre_producto,
+    pr.nombre AS nombre_proveedor,
+    pp.costo,
+    pp.precio_venta,
+    (pp.precio_venta - pp.costo) AS margen
+FROM 
+    proveedor_producto pp
+    JOIN producto p ON pp.id_producto = p.id_producto
+    JOIN proveedor pr ON pp.id_proveedor = pr.id_proveedor
+
+
+GO
+
+CREATE VIEW [dbo].[TotalinventarioPorProveedor]
+	AS 
+	SELECT 
+    pr.nombre AS nombre_proveedor,
+    SUM(i.cantidad) AS total_inventario
+FROM 
+    inventario i
+    JOIN proveedor_producto pp ON i.id_proveedor_producto = pp.id_proveedor_producto
+    JOIN proveedor pr ON pp.id_proveedor = pr.id_proveedor
+GROUP BY 
+    pr.nombre
+
+GO
+
+CREATE VIEW [dbo].[FrecuenciaMovimientoInventario]
+	AS
+	SELECT 
+    tipo,
+    COUNT(*) AS cantidad_movimientos
+FROM 
+    movimiento_inventario
+GROUP BY 
+    tipo
+
+GO
+
+CREATE VIEW [dbo].[ValorTotalEnInventarioPorProducto]
+	AS 
+	SELECT 
+    p.nombre AS nombre_producto,
+    SUM(i.cantidad * pp.costo) AS valor_total
+FROM 
+    inventario i
+    JOIN proveedor_producto pp ON i.id_proveedor_producto = pp.id_proveedor_producto
+    JOIN producto p ON pp.id_producto = p.id_producto
+GROUP BY 
+    p.nombre
+
+
+GO
+
+CREATE VIEW [dbo].[ProductosSinMovimientoReciente]
+	AS 
+	SELECT 
+    p.nombre AS nombre_producto,
+    MAX(mi.fecha) AS ultima_fecha_movimiento
+FROM 
+    producto p
+    JOIN proveedor_producto pp ON p.id_producto = pp.id_producto
+    JOIN inventario i ON pp.id_proveedor_producto = i.id_proveedor_producto
+    LEFT JOIN movimiento_inventario mi ON i.id_inventario = mi.id_inventario
+GROUP BY 
+    p.nombre
+HAVING 
+    MAX(mi.fecha) IS NULL OR MAX(mi.fecha) < DATEADD(MONTH, -1, GETDATE())
+
+
+GO
