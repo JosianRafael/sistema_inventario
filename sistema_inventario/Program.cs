@@ -25,7 +25,7 @@ namespace sistema_inventario
             {
                 splash.ShowDialog();
             }
-            Application.Run(new Reportegeneral());
+            Application.Run(new ReporteFactura());
         }
     }
 }

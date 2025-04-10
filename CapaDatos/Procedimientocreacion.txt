@@ -933,3 +933,105 @@ HAVING
 
 
 GO
+
+CREATE VIEW [dbo].[ComprasHechasCliente]
+	AS 
+	SELECT 
+    c.id_cliente,
+    c.nombre + ' ' + c.apellido AS nombre_cliente,
+    COUNT(f.id_factura) AS cantidad_compras
+FROM 
+    cliente c
+    LEFT JOIN factura f ON c.id_cliente = f.id_cliente
+GROUP BY 
+    c.id_cliente, c.nombre, c.apellido
+
+
+
+GO
+
+CREATE VIEW [dbo].[CantidadGastadaPorCliente]
+	AS
+	SELECT 
+    c.id_cliente,
+    c.nombre + ' ' + c.apellido AS nombre_cliente,
+    SUM(f.total) AS total_gastado
+FROM 
+    cliente c
+    JOIN factura f ON c.id_cliente = f.id_cliente
+GROUP BY 
+    c.id_cliente, c.nombre, c.apellido
+
+GO
+
+CREATE VIEW [dbo].[ClienteMetodoPago]
+	AS
+	SELECT 
+    metodo_pago,
+    COUNT(*) AS cantidad
+FROM 
+    factura
+GROUP BY 
+    metodo_pago;
+
+GO
+
+CREATE VIEW [dbo].[EvolucionVentasPorMes]
+	AS
+	SELECT 
+    FORMAT(fecha, 'yyyy-MM') AS mes,
+    COUNT(*) AS cantidad_facturas,
+    SUM(total) AS total_ventas
+FROM 
+    factura
+GROUP BY 
+    FORMAT(fecha, 'yyyy-MM')
+
+
+
+GO
+
+CREATE VIEW [dbo].[TotalObtenidoMetodoPago]
+	AS
+	SELECT 
+    metodo_pago,
+    COUNT(*) AS cantidad,
+    SUM(total) AS total_recaudado
+FROM 
+    factura
+GROUP BY 
+    metodo_pago
+
+
+
+GO
+
+CREATE VIEW [dbo].[TotalMontoPorEstadoFactura]
+	AS
+
+	SELECT 
+    estado,
+    COUNT(*) AS cantidad,
+    SUM(total) AS total_monto
+FROM 
+    factura
+GROUP BY 
+    estado;
+
+
+GO
+
+CREATE VIEW [dbo].[TotalVentasPorDias]
+	AS
+	SELECT 
+    CAST(fecha AS DATE) AS dia,
+    COUNT(*) AS cantidad_facturas,
+    SUM(total) AS total_diario
+FROM 
+    factura
+GROUP BY 
+    CAST(fecha AS DATE)
+
+
+
+GO

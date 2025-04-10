@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSetFacturas" targetNamespace="http://tempuri.org/DataSetFacturas.xsd" xmlns:mstns="http://tempuri.org/DataSetFacturas.xsd" xmlns="http://tempuri.org/DataSetFacturas.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="BaseDeDatosConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="BaseDeDatosConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.sistema_inventario.Properties.Settings.GlobalReference.Default.BaseDeDatosConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="EvolucionVentasPorMesTableAdapter" GeneratorDataComponentClassName="EvolucionVentasPorMesTableAdapter" Name="EvolucionVentasPorMes" UserDataComponentName="EvolucionVentasPorMesTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="BaseDeDatosConnectionString (Settings)" DbObjectName="dbo.EvolucionVentasPorMes" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT mes, cantidad_facturas, total_ventas FROM dbo.EvolucionVentasPorMes</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="mes" DataSetColumn="mes" />
+              <Mapping SourceColumn="cantidad_facturas" DataSetColumn="cantidad_facturas" />
+              <Mapping SourceColumn="total_ventas" DataSetColumn="total_ventas" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="TotalObtenidoMetodoPagoTableAdapter" GeneratorDataComponentClassName="TotalObtenidoMetodoPagoTableAdapter" Name="TotalObtenidoMetodoPago" UserDataComponentName="TotalObtenidoMetodoPagoTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="BaseDeDatosConnectionString (Settings)" DbObjectName="dbo.TotalObtenidoMetodoPago" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT metodo_pago, cantidad, total_recaudado FROM dbo.TotalObtenidoMetodoPago</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="metodo_pago" DataSetColumn="metodo_pago" />
+              <Mapping SourceColumn="cantidad" DataSetColumn="cantidad" />
+              <Mapping SourceColumn="total_recaudado" DataSetColumn="total_recaudado" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="TotalMontoPorEstadoFacturaTableAdapter" GeneratorDataComponentClassName="TotalMontoPorEstadoFacturaTableAdapter" Name="TotalMontoPorEstadoFactura" UserDataComponentName="TotalMontoPorEstadoFacturaTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="BaseDeDatosConnectionString (Settings)" DbObjectName="dbo.TotalMontoPorEstadoFactura" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT estado, cantidad, total_monto FROM dbo.TotalMontoPorEstadoFactura</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="estado" DataSetColumn="estado" />
+              <Mapping SourceColumn="cantidad" DataSetColumn="cantidad" />
+              <Mapping SourceColumn="total_monto" DataSetColumn="total_monto" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="TotalVentasPorDiasTableAdapter" GeneratorDataComponentClassName="TotalVentasPorDiasTableAdapter" Name="TotalVentasPorDias" UserDataComponentName="TotalVentasPorDiasTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="BaseDeDatosConnectionString (Settings)" DbObjectName="dbo.TotalVentasPorDias" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT dia, cantidad_facturas, total_diario FROM dbo.TotalVentasPorDias</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="dia" DataSetColumn="dia" />
+              <Mapping SourceColumn="cantidad_facturas" DataSetColumn="cantidad_facturas" />
+              <Mapping SourceColumn="total_diario" DataSetColumn="total_diario" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="ClienteMetodoPagoTableAdapter" GeneratorDataComponentClassName="ClienteMetodoPagoTableAdapter" Name="ClienteMetodoPago" UserDataComponentName="ClienteMetodoPagoTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="BaseDeDatosConnectionString (Settings)" DbObjectName="dbo.ClienteMetodoPago" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT metodo_pago, cantidad FROM dbo.ClienteMetodoPago</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="metodo_pago" DataSetColumn="metodo_pago" />
+              <Mapping SourceColumn="cantidad" DataSetColumn="cantidad" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSetFacturas" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSetFacturas" msprop:Generator_UserDSName="DataSetFacturas">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="EvolucionVentasPorMes" msprop:Generator_TableClassName="EvolucionVentasPorMesDataTable" msprop:Generator_TableVarName="tableEvolucionVentasPorMes" msprop:Generator_TablePropName="EvolucionVentasPorMes" msprop:Generator_RowDeletingName="EvolucionVentasPorMesRowDeleting" msprop:Generator_RowChangingName="EvolucionVentasPorMesRowChanging" msprop:Generator_RowEvHandlerName="EvolucionVentasPorMesRowChangeEventHandler" msprop:Generator_RowDeletedName="EvolucionVentasPorMesRowDeleted" msprop:Generator_UserTableName="EvolucionVentasPorMes" msprop:Generator_RowChangedName="EvolucionVentasPorMesRowChanged" msprop:Generator_RowEvArgName="EvolucionVentasPorMesRowChangeEvent" msprop:Generator_RowClassName="EvolucionVentasPorMesRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="mes" msprop:Generator_ColumnVarNameInTable="columnmes" msprop:Generator_ColumnPropNameInRow="mes" msprop:Generator_ColumnPropNameInTable="mesColumn" msprop:Generator_UserColumnName="mes" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="4000" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="cantidad_facturas" msprop:Generator_ColumnVarNameInTable="columncantidad_facturas" msprop:Generator_ColumnPropNameInRow="cantidad_facturas" msprop:Generator_ColumnPropNameInTable="cantidad_facturasColumn" msprop:Generator_UserColumnName="cantidad_facturas" type="xs:int" minOccurs="0" />
+              <xs:element name="total_ventas" msprop:Generator_ColumnVarNameInTable="columntotal_ventas" msprop:Generator_ColumnPropNameInRow="total_ventas" msprop:Generator_ColumnPropNameInTable="total_ventasColumn" msprop:Generator_UserColumnName="total_ventas" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="TotalObtenidoMetodoPago" msprop:Generator_TableClassName="TotalObtenidoMetodoPagoDataTable" msprop:Generator_TableVarName="tableTotalObtenidoMetodoPago" msprop:Generator_TablePropName="TotalObtenidoMetodoPago" msprop:Generator_RowDeletingName="TotalObtenidoMetodoPagoRowDeleting" msprop:Generator_RowChangingName="TotalObtenidoMetodoPagoRowChanging" msprop:Generator_RowEvHandlerName="TotalObtenidoMetodoPagoRowChangeEventHandler" msprop:Generator_RowDeletedName="TotalObtenidoMetodoPagoRowDeleted" msprop:Generator_UserTableName="TotalObtenidoMetodoPago" msprop:Generator_RowChangedName="TotalObtenidoMetodoPagoRowChanged" msprop:Generator_RowEvArgName="TotalObtenidoMetodoPagoRowChangeEvent" msprop:Generator_RowClassName="TotalObtenidoMetodoPagoRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="metodo_pago" msprop:Generator_ColumnVarNameInTable="columnmetodo_pago" msprop:Generator_ColumnPropNameInRow="metodo_pago" msprop:Generator_ColumnPropNameInTable="metodo_pagoColumn" msprop:Generator_UserColumnName="metodo_pago">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="cantidad" msprop:Generator_ColumnVarNameInTable="columncantidad" msprop:Generator_ColumnPropNameInRow="cantidad" msprop:Generator_ColumnPropNameInTable="cantidadColumn" msprop:Generator_UserColumnName="cantidad" type="xs:int" minOccurs="0" />
+              <xs:element name="total_recaudado" msprop:Generator_ColumnVarNameInTable="columntotal_recaudado" msprop:Generator_ColumnPropNameInRow="total_recaudado" msprop:Generator_ColumnPropNameInTable="total_recaudadoColumn" msprop:Generator_UserColumnName="total_recaudado" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="TotalMontoPorEstadoFactura" msprop:Generator_TableClassName="TotalMontoPorEstadoFacturaDataTable" msprop:Generator_TableVarName="tableTotalMontoPorEstadoFactura" msprop:Generator_TablePropName="TotalMontoPorEstadoFactura" msprop:Generator_RowDeletingName="TotalMontoPorEstadoFacturaRowDeleting" msprop:Generator_RowChangingName="TotalMontoPorEstadoFacturaRowChanging" msprop:Generator_RowEvHandlerName="TotalMontoPorEstadoFacturaRowChangeEventHandler" msprop:Generator_RowDeletedName="TotalMontoPorEstadoFacturaRowDeleted" msprop:Generator_UserTableName="TotalMontoPorEstadoFactura" msprop:Generator_RowChangedName="TotalMontoPorEstadoFacturaRowChanged" msprop:Generator_RowEvArgName="TotalMontoPorEstadoFacturaRowChangeEvent" msprop:Generator_RowClassName="TotalMontoPorEstadoFacturaRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="estado" msprop:Generator_ColumnVarNameInTable="columnestado" msprop:Generator_ColumnPropNameInRow="estado" msprop:Generator_ColumnPropNameInTable="estadoColumn" msprop:Generator_UserColumnName="estado" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="cantidad" msprop:Generator_ColumnVarNameInTable="columncantidad" msprop:Generator_ColumnPropNameInRow="cantidad" msprop:Generator_ColumnPropNameInTable="cantidadColumn" msprop:Generator_UserColumnName="cantidad" type="xs:int" minOccurs="0" />
+              <xs:element name="total_monto" msprop:Generator_ColumnVarNameInTable="columntotal_monto" msprop:Generator_ColumnPropNameInRow="total_monto" msprop:Generator_ColumnPropNameInTable="total_montoColumn" msprop:Generator_UserColumnName="total_monto" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="TotalVentasPorDias" msprop:Generator_TableClassName="TotalVentasPorDiasDataTable" msprop:Generator_TableVarName="tableTotalVentasPorDias" msprop:Generator_TablePropName="TotalVentasPorDias" msprop:Generator_RowDeletingName="TotalVentasPorDiasRowDeleting" msprop:Generator_RowChangingName="TotalVentasPorDiasRowChanging" msprop:Generator_RowEvHandlerName="TotalVentasPorDiasRowChangeEventHandler" msprop:Generator_RowDeletedName="TotalVentasPorDiasRowDeleted" msprop:Generator_UserTableName="TotalVentasPorDias" msprop:Generator_RowChangedName="TotalVentasPorDiasRowChanged" msprop:Generator_RowEvArgName="TotalVentasPorDiasRowChangeEvent" msprop:Generator_RowClassName="TotalVentasPorDiasRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="dia" msprop:Generator_ColumnVarNameInTable="columndia" msprop:Generator_ColumnPropNameInRow="dia" msprop:Generator_ColumnPropNameInTable="diaColumn" msprop:Generator_UserColumnName="dia" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="cantidad_facturas" msprop:Generator_ColumnVarNameInTable="columncantidad_facturas" msprop:Generator_ColumnPropNameInRow="cantidad_facturas" msprop:Generator_ColumnPropNameInTable="cantidad_facturasColumn" msprop:Generator_UserColumnName="cantidad_facturas" type="xs:int" minOccurs="0" />
+              <xs:element name="total_diario" msprop:Generator_ColumnVarNameInTable="columntotal_diario" msprop:Generator_ColumnPropNameInRow="total_diario" msprop:Generator_ColumnPropNameInTable="total_diarioColumn" msprop:Generator_UserColumnName="total_diario" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ClienteMetodoPago" msprop:Generator_TableClassName="ClienteMetodoPagoDataTable" msprop:Generator_TableVarName="tableClienteMetodoPago" msprop:Generator_TablePropName="ClienteMetodoPago" msprop:Generator_RowDeletingName="ClienteMetodoPagoRowDeleting" msprop:Generator_RowChangingName="ClienteMetodoPagoRowChanging" msprop:Generator_RowEvHandlerName="ClienteMetodoPagoRowChangeEventHandler" msprop:Generator_RowDeletedName="ClienteMetodoPagoRowDeleted" msprop:Generator_UserTableName="ClienteMetodoPago" msprop:Generator_RowChangedName="ClienteMetodoPagoRowChanged" msprop:Generator_RowEvArgName="ClienteMetodoPagoRowChangeEvent" msprop:Generator_RowClassName="ClienteMetodoPagoRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="metodo_pago" msprop:Generator_ColumnVarNameInTable="columnmetodo_pago" msprop:Generator_ColumnPropNameInRow="metodo_pago" msprop:Generator_ColumnPropNameInTable="metodo_pagoColumn" msprop:Generator_UserColumnName="metodo_pago">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="cantidad" msprop:Generator_ColumnVarNameInTable="columncantidad" msprop:Generator_ColumnPropNameInRow="cantidad" msprop:Generator_ColumnPropNameInTable="cantidadColumn" msprop:Generator_UserColumnName="cantidad" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

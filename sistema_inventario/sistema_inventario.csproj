@@ -176,6 +176,21 @@
     <Compile Include="vistaProveedor\menuesproveedor.Designer.cs">
       <DependentUpon>menuesproveedor.cs</DependentUpon>
     </Compile>
+    <Compile Include="vistaReporte\datasets\DataSetClientes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetClientes.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="vistaReporte\datasets\DataSetEmpleados.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetEmpleados.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="vistaReporte\datasets\DataSetFacturas.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetFacturas.xsd</DependentUpon>
+    </Compile>
     <Compile Include="vistaReporte\datasets\DatasetProductos.cs">
       <DependentUpon>DatasetProductos.xsd</DependentUpon>
     </Compile>
@@ -189,6 +204,24 @@
     </Compile>
     <Compile Include="vistaReporte\menuesreporte.Designer.cs">
       <DependentUpon>menuesreporte.cs</DependentUpon>
+    </Compile>
+    <Compile Include="vistaReporte\ReporteClientes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="vistaReporte\ReporteClientes.Designer.cs">
+      <DependentUpon>ReporteClientes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="vistaReporte\ReporteEmpleados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="vistaReporte\ReporteEmpleados.Designer.cs">
+      <DependentUpon>ReporteEmpleados.cs</DependentUpon>
+    </Compile>
+    <Compile Include="vistaReporte\ReporteFactura.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="vistaReporte\ReporteFactura.Designer.cs">
+      <DependentUpon>ReporteFactura.cs</DependentUpon>
     </Compile>
     <Compile Include="vistaReporte\Reportegeneral.cs">
       <SubType>Form</SubType>
@@ -260,9 +293,21 @@
     <EmbeddedResource Include="vistaProveedor\menuesproveedor.resx">
       <DependentUpon>menuesproveedor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="vistaReporte\informes\InforemeClientes.rdlc" />
+    <EmbeddedResource Include="vistaReporte\informes\InformeEmpleados.rdlc" />
+    <EmbeddedResource Include="vistaReporte\informes\InformeFacturas.rdlc" />
     <EmbeddedResource Include="vistaReporte\informes\InformeProductos.rdlc" />
     <EmbeddedResource Include="vistaReporte\menuesreporte.resx">
       <DependentUpon>menuesreporte.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="vistaReporte\ReporteClientes.resx">
+      <DependentUpon>ReporteClientes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="vistaReporte\ReporteEmpleados.resx">
+      <DependentUpon>ReporteEmpleados.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="vistaReporte\ReporteFactura.resx">
+      <DependentUpon>ReporteFactura.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="vistaReporte\Reportegeneral.resx">
       <DependentUpon>Reportegeneral.cs</DependentUpon>
@@ -280,6 +325,39 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="vistaReporte\datasets\DataSetClientes.xsc">
+      <DependentUpon>DataSetClientes.xsd</DependentUpon>
+    </None>
+    <None Include="vistaReporte\datasets\DataSetClientes.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetClientes.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="vistaReporte\datasets\DataSetClientes.xss">
+      <DependentUpon>DataSetClientes.xsd</DependentUpon>
+    </None>
+    <None Include="vistaReporte\datasets\DataSetEmpleados.xsc">
+      <DependentUpon>DataSetEmpleados.xsd</DependentUpon>
+    </None>
+    <None Include="vistaReporte\datasets\DataSetEmpleados.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetEmpleados.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="vistaReporte\datasets\DataSetEmpleados.xss">
+      <DependentUpon>DataSetEmpleados.xsd</DependentUpon>
+    </None>
+    <None Include="vistaReporte\datasets\DataSetFacturas.xsc">
+      <DependentUpon>DataSetFacturas.xsd</DependentUpon>
+    </None>
+    <None Include="vistaReporte\datasets\DataSetFacturas.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetFacturas.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="vistaReporte\datasets\DataSetFacturas.xss">
+      <DependentUpon>DataSetFacturas.xsd</DependentUpon>
+    </None>
     <None Include="vistaReporte\datasets\DatasetProductos.xsc">
       <DependentUpon>DatasetProductos.xsd</DependentUpon>
     </None>
